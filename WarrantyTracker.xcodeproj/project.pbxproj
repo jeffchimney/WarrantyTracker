@@ -12,15 +12,18 @@
 		BE8299F91CF53DCC009150F0 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F81CF53DCC009150F0 /* CoreImage.framework */; };
 		BE829A001CF545CA009150F0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */; };
 		BE829A021CF5464D009150F0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE829A011CF5464D009150F0 /* libc++.tbd */; };
-		BEA899E81CF51F3200DF86E7 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */; };
+		BEA899E81CF51F3200DF86E7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA899E71CF51F3200DF86E7 /* SettingsViewController.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
-		BEF5F7CA1CEF8AAB00F3B769 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */; };
-		BEF5F7CC1CEF8AAB00F3B769 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* SecondViewController.swift */; };
+		BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */; };
+		BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */; };
 		BEF5F7CF1CEF8AAC00F3B769 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */; };
 		BEF5F7D11CEF8AAC00F3B769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */; };
 		BEF5F7D41CEF8AAC00F3B769 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7D21CEF8AAC00F3B769 /* LaunchScreen.storyboard */; };
 		BEF5F7DF1CEF8AAC00F3B769 /* WarrantyTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7DE1CEF8AAC00F3B769 /* WarrantyTrackerTests.swift */; };
 		BEF5F7EA1CEF8AAC00F3B769 /* WarrantyTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7E91CEF8AAC00F3B769 /* WarrantyTrackerUITests.swift */; };
+		BEF7EB0E1CF60E12000CCE75 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF7EB0D1CF60E12000CCE75 /* CloudKit.framework */; };
+		BEF7EB101CF60EC3000CCE75 /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */; };
+		BEF7EB121CF62FC7000CCE75 /* WarrantyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF7EB111CF62FC7000CCE75 /* WarrantyTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,11 +50,11 @@
 		BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		BE8299FC1CF53FB0009150F0 /* WarrantyTracker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WarrantyTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		BE829A011CF5464D009150F0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		BEA899E71CF51F3200DF86E7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BEF5F7C41CEF8AAB00F3B769 /* WarrantyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		BEF5F7CB1CEF8AAB00F3B769 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		BEF5F7CE1CEF8AAC00F3B769 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BEF5F7D31CEF8AAC00F3B769 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -62,6 +65,10 @@
 		BEF5F7E51CEF8AAC00F3B769 /* WarrantyTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarrantyTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF5F7E91CEF8AAC00F3B769 /* WarrantyTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarrantyTrackerUITests.swift; sourceTree = "<group>"; };
 		BEF5F7EB1CEF8AAC00F3B769 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEF7EB0C1CF60E0E000CCE75 /* WarrantyTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = WarrantyTracker.entitlements; sourceTree = "<group>"; };
+		BEF7EB0D1CF60E12000CCE75 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitHelper.swift; sourceTree = "<group>"; };
+		BEF7EB111CF62FC7000CCE75 /* WarrantyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarrantyTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEF7EB0E1CF60E12000CCE75 /* CloudKit.framework in Frameworks */,
 				BE829A021CF5464D009150F0 /* libc++.tbd in Frameworks */,
 				BE829A001CF545CA009150F0 /* libstdc++.6.0.9.tbd in Frameworks */,
 				BE8299F91CF53DCC009150F0 /* CoreImage.framework in Frameworks */,
@@ -96,6 +104,7 @@
 		BEF5F7BB1CEF8AAB00F3B769 = {
 			isa = PBXGroup;
 			children = (
+				BEF7EB0D1CF60E12000CCE75 /* CloudKit.framework */,
 				BE829A011CF5464D009150F0 /* libc++.tbd */,
 				BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */,
 				BEF5F7C61CEF8AAB00F3B769 /* WarrantyTracker */,
@@ -121,10 +130,13 @@
 		BEF5F7C61CEF8AAB00F3B769 /* WarrantyTracker */ = {
 			isa = PBXGroup;
 			children = (
+				BEF7EB0C1CF60E0E000CCE75 /* WarrantyTracker.entitlements */,
 				BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */,
-				BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */,
-				BEF5F7CB1CEF8AAB00F3B769 /* SecondViewController.swift */,
-				BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */,
+				BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */,
+				BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */,
+				BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */,
+				BEF7EB111CF62FC7000CCE75 /* WarrantyTableViewCell.swift */,
+				BEA899E71CF51F3200DF86E7 /* SettingsViewController.swift */,
 				BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */,
 				BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */,
 				BEF5F7D21CEF8AAC00F3B769 /* LaunchScreen.storyboard */,
@@ -220,6 +232,12 @@
 				TargetAttributes = {
 					BEF5F7C31CEF8AAB00F3B769 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = JSZY8AYXNH;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					BEF5F7D91CEF8AAC00F3B769 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -284,10 +302,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEF5F7CC1CEF8AAB00F3B769 /* SecondViewController.swift in Sources */,
+				BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */,
 				BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */,
-				BEA899E81CF51F3200DF86E7 /* ThirdViewController.swift in Sources */,
-				BEF5F7CA1CEF8AAB00F3B769 /* FirstViewController.swift in Sources */,
+				BEA899E81CF51F3200DF86E7 /* SettingsViewController.swift in Sources */,
+				BEF7EB101CF60EC3000CCE75 /* CloudKitHelper.swift in Sources */,
+				BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */,
+				BEF7EB121CF62FC7000CCE75 /* WarrantyTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +453,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = WarrantyTracker/WarrantyTracker.entitlements;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -453,6 +474,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = WarrantyTracker/WarrantyTracker.entitlements;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

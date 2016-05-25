@@ -8,17 +8,25 @@
 
 import UIKit
 
-class SecondViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+class CameraViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet weak var staticTableView: UITableView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var cameraView: UIImageView!
     @IBOutlet weak var captureButton: UITabBarItem!
+    
+    let cloudKitHelper = CloudKitHelper()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.hidden = true
+        
+        staticTableView.delegate = self
+        staticTableView.dataSource = self
     }
     
     override func viewWillAppear(animated: Bool) {
+        staticTableView.tableHeaderView = UIView.init(frame: CGRectMake(0, 0, self.view.frame.size.width, 20))
         // Set up camera view and provide options for upload.
         let imagePickerActionSheet = UIAlertController(title: "Take or Upload a Photo",
                                                        message: nil, preferredStyle: .ActionSheet)
@@ -101,6 +109,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         dismissViewControllerAnimated(true, completion: {
             self.performImageRecognition(scaledImage)
+            
+            self.cloudKitHelper.saveImageToCloud(scaledImage)
         })
     }
     
