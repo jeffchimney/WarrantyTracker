@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BEA899E81CF51F3200DF86E7 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
 		BEF5F7CA1CEF8AAB00F3B769 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */; };
 		BEF5F7CC1CEF8AAB00F3B769 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* SecondViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		BEF5F7C41CEF8AAB00F3B769 /* WarrantyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */,
 				BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */,
 				BEF5F7CB1CEF8AAB00F3B769 /* SecondViewController.swift */,
+				BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */,
 				BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */,
 				BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */,
 				BEF5F7D21CEF8AAC00F3B769 /* LaunchScreen.storyboard */,
@@ -261,6 +264,7 @@
 			files = (
 				BEF5F7CC1CEF8AAB00F3B769 /* SecondViewController.swift in Sources */,
 				BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */,
+				BEA899E81CF51F3200DF86E7 /* ThirdViewController.swift in Sources */,
 				BEF5F7CA1CEF8AAB00F3B769 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,6 +492,7 @@
 				BEF5F7F01CEF8AAC00F3B769 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEF5F7F11CEF8AAC00F3B769 /* Build configuration list for PBXNativeTarget "WarrantyTrackerTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +501,7 @@
 				BEF5F7F31CEF8AAC00F3B769 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEF5F7F41CEF8AAC00F3B769 /* Build configuration list for PBXNativeTarget "WarrantyTrackerUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +510,7 @@
 				BEF5F7F61CEF8AAC00F3B769 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
