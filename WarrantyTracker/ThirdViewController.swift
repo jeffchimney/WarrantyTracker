@@ -13,13 +13,7 @@ class ThirdViewController: UIViewController {
     @IBOutlet weak var cameraView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Set up camera view
-        
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .Camera
-        
-        presentViewController(picker, animated: true, completion: nil)
+    
     }
     
     override func didReceiveMemoryWarning() {

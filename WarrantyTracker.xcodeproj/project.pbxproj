@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE8299F51CF53D66009150F0 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F41CF53D66009150F0 /* TesseractOCR.framework */; };
+		BE8299F71CF53DA6009150F0 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = BE8299F61CF53DA6009150F0 /* tessdata */; };
+		BE8299F91CF53DCC009150F0 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F81CF53DCC009150F0 /* CoreImage.framework */; };
+		BE829A001CF545CA009150F0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */; };
+		BE829A021CF5464D009150F0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE829A011CF5464D009150F0 /* libc++.tbd */; };
 		BEA899E81CF51F3200DF86E7 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
 		BEF5F7CA1CEF8AAB00F3B769 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* FirstViewController.swift */; };
@@ -36,6 +41,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE8299F41CF53D66009150F0 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = WarrantyTracker/TesseractOCR.framework; sourceTree = "<group>"; };
+		BE8299F61CF53DA6009150F0 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
+		BE8299F81CF53DCC009150F0 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		BE8299FC1CF53FB0009150F0 /* WarrantyTracker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WarrantyTracker-Bridging-Header.h"; sourceTree = "<group>"; };
+		BE829A011CF5464D009150F0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		BEA899E71CF51F3200DF86E7 /* ThirdViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		BEF5F7C41CEF8AAB00F3B769 /* WarrantyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +69,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE829A021CF5464D009150F0 /* libc++.tbd in Frameworks */,
+				BE829A001CF545CA009150F0 /* libstdc++.6.0.9.tbd in Frameworks */,
+				BE8299F91CF53DCC009150F0 /* CoreImage.framework in Frameworks */,
+				BE8299F51CF53D66009150F0 /* TesseractOCR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,10 +96,15 @@
 		BEF5F7BB1CEF8AAB00F3B769 = {
 			isa = PBXGroup;
 			children = (
+				BE829A011CF5464D009150F0 /* libc++.tbd */,
+				BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */,
 				BEF5F7C61CEF8AAB00F3B769 /* WarrantyTracker */,
 				BEF5F7DD1CEF8AAC00F3B769 /* WarrantyTrackerTests */,
 				BEF5F7E81CEF8AAC00F3B769 /* WarrantyTrackerUITests */,
 				BEF5F7C51CEF8AAB00F3B769 /* Products */,
+				BE8299F41CF53D66009150F0 /* TesseractOCR.framework */,
+				BE8299F81CF53DCC009150F0 /* CoreImage.framework */,
+				BE8299FC1CF53FB0009150F0 /* WarrantyTracker-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +129,7 @@
 				BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */,
 				BEF5F7D21CEF8AAC00F3B769 /* LaunchScreen.storyboard */,
 				BEF5F7D51CEF8AAC00F3B769 /* Info.plist */,
+				BE8299F61CF53DA6009150F0 /* tessdata */,
 			);
 			path = WarrantyTracker;
 			sourceTree = "<group>";
@@ -236,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF5F7D41CEF8AAC00F3B769 /* LaunchScreen.storyboard in Resources */,
+				BE8299F71CF53DA6009150F0 /* tessdata in Resources */,
 				BEF5F7D11CEF8AAC00F3B769 /* Assets.xcassets in Resources */,
 				BEF5F7CF1CEF8AAC00F3B769 /* Main.storyboard in Resources */,
 			);
@@ -409,10 +431,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WarrantyTracker",
+				);
 				INFOPLIST_FILE = WarrantyTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WarrantyTracker-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -420,10 +451,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WarrantyTracker",
+				);
 				INFOPLIST_FILE = WarrantyTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "WarrantyTracker-Bridging-Header.h";
 			};
 			name = Release;
 		};
