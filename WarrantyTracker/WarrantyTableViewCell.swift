@@ -12,10 +12,8 @@ class WarrantyTableViewCell: UITableViewCell {
     
     // MARK: Properties
     
-
     @IBOutlet weak var cellImageView: UIImageView!
     @IBOutlet weak var warrantyLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    
-    
+    @IBOutlet weak var endDateLabel: UILabel!
 }

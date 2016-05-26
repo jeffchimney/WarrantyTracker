@@ -21,7 +21,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     let cloudKitHelper = CloudKitHelper()
     var rowsInTable = 0
     
-    var warrantyImages: [UIImage] = []
+    var warrantyImage: UIImage!
+    var warrantyRecords: [CKRecord] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,15 +53,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rowsInTable // for now
+        return rowsInTable // number of entries in cloudkit
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
-        
-        if warrantyImages.count > 0 {
-            cell.cellImageView.image = warrantyImages.popLast()
+        let index = indexPath.row
+        let currentRecord = warrantyRecords[index]
+        if let asset = currentRecord["Image"] as? CKAsset,
+            data = NSData(contentsOfURL: asset.fileURL),
+            image = UIImage(data: data)
+        {
+            warrantyImage = image
         }
+        // populate cells with info from cloudkit
+        cell.cellImageView.image = warrantyImage
+        cell.warrantyLabel.text = currentRecord["Title"] as? String
+        cell.descriptionLabel.text = currentRecord["Description"] as? String
+        let endDate = currentRecord["EndDate"] as! NSDate
+        
+        // format date properly as string
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let endDateString = dateFormatter.stringFromDate(endDate)
+        cell.endDateLabel.text = endDateString
         
         return cell
     }
@@ -82,16 +98,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             // tell the table how many rows it should have
             self.rowsInTable = (results?.count)!
             
-            for record in results! {
-                if let asset = record["Image"] as? CKAsset,
-                    data = NSData(contentsOfURL: asset.fileURL),
-                    image = UIImage(data: data)
-                {
-                    // Do something with the image
-                    print(image)
-                    self.warrantyImages.append(image)
-                }
-            }
+            self.warrantyRecords = results!
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.WarrantiesTableView.reloadData()
             })

@@ -54,7 +54,7 @@ class CloudKitHelper {
         })
     }
     
-    func saveImageToCloud(imageToSave: UIImage) {
+    func saveEntryToCloud(imageToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate) {
         let newRecord:CKRecord = CKRecord(recordType: "Image")
         let filename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
         let url = NSURL.fileURLWithPath(NSTemporaryDirectory()).URLByAppendingPathComponent(filename)
@@ -64,6 +64,10 @@ class CloudKitHelper {
             try data.writeToURL(url, options: NSDataWritingOptions.AtomicWrite)
             let asset = CKAsset(fileURL: url)
             newRecord["Image"] = asset
+            newRecord["Title"] = label
+            newRecord["Description"] = description
+            newRecord["StartDate"] = startDate
+            newRecord["EndDate"] = endDate
         }
         catch {
             print("Error writing data", error)

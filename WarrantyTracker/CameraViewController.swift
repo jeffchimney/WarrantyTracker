@@ -17,11 +17,14 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailsTextField: UITextField!
-    @IBOutlet weak var warrantyBeginsTextField: UITextField!
-    @IBOutlet weak var warrantyEndsTextField: UITextField!
+    @IBOutlet weak var warrantyBeginsPicker: UIDatePicker!
+    @IBOutlet weak var warrantyEndsPicker: UIDatePicker!
+    
+    @IBOutlet weak var saveEntryButton: UIButton!
     
     var textFieldSelected: Bool!
     var kbHeight: CGFloat!
+    var imageToSave: UIImage!
     
     let cloudKitHelper = CloudKitHelper()
     
@@ -34,19 +37,22 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         
         titleTextField.delegate = self
         detailsTextField.delegate = self
-        warrantyBeginsTextField.delegate = self
-        warrantyEndsTextField.delegate = self
+        
+        saveEntryButton.userInteractionEnabled = false
+        saveEntryButton.tintColor = UIColor.lightGrayColor()
+        
+        warrantyBeginsPicker.datePickerMode = UIDatePickerMode.Date
+        warrantyEndsPicker.datePickerMode = UIDatePickerMode.Date
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        // watch for keyboard to hide/show
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
         
         textFieldSelected = false
         
-        staticTableView.tableHeaderView = UIView.init(frame: CGRectMake(0, 0, self.view.frame.size.width, 20))
+        // if using navbar, use 64 instead of 20 for inset.
+        staticTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        
         // Set up camera view and provide options for upload.
         let imagePickerActionSheet = UIAlertController(title: "Take or Upload a Photo",
                                                        message: nil, preferredStyle: .ActionSheet)
@@ -131,12 +137,13 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         cameraView.contentMode = .ScaleAspectFit
         cameraView.image = scaledImage
         
+        imageToSave = scaledImage
+        
         addActivityIndicator()
         
         dismissViewControllerAnimated(true, completion: {
             self.performImageRecognition(scaledImage)
             
-            self.cloudKitHelper.saveImageToCloud(scaledImage)
         })
     }
     
@@ -167,34 +174,44 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
+        if (imageToSave != nil && titleTextField.text != "" && detailsTextField.text != "") {
+            saveEntryButton.userInteractionEnabled = true
+            saveEntryButton.tintColor = UIColor.blueColor()
+        }
+        
         return true
     }
     
-    
-    // hid and show keyboard functions
-    func keyboardWillShow(notification: NSNotification) {
-        textFieldSelected = true
-        if let userInfo = notification.userInfo {
-            if let keyboardSize =  (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-                kbHeight = keyboardSize.height*1.25
-                self.animateTextField(true)
-            }
-        }
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        self.animateTextField(false)
-    }
-    
-    // move screen up if showing and down if hiding
-    func animateTextField(up: Bool) {
-        if !textFieldSelected {
-            let movement = (up ? -kbHeight : kbHeight)
+    // make sure that the start date is never later than the end date
+    @IBAction func beginsDatePickerAction(sender: AnyObject) {
+        print(warrantyBeginsPicker.date)
         
-            UIView.animateWithDuration(0.3, animations: {
-                self.view.frame = CGRectOffset(self.view.frame, 0, movement)
-            })
+        switch warrantyBeginsPicker.date.compare(warrantyEndsPicker.date) {
+            case .OrderedAscending:
+                print("StartDate is earlier than EndDate")
+            case .OrderedDescending:
+                print("StartDate is later than EndDate")
+                warrantyEndsPicker.date = warrantyBeginsPicker.date
+            case .OrderedSame:
+                print("The two dates are the same")
         }
+    }
+    
+    @IBAction func endsDatePickerAction(sender: AnyObject) {
+        print(warrantyEndsPicker.date)
+        switch warrantyBeginsPicker.date.compare(warrantyEndsPicker.date) {
+            case .OrderedAscending:
+                print("StartDate is earlier than EndDate")
+            case .OrderedDescending:
+                print("StartDate is later than EndDate")
+                warrantyEndsPicker.date = warrantyBeginsPicker.date
+            case .OrderedSame:
+                print("The two dates are the same")
+        }
+    }
+    
+    @IBAction func saveWarrantyButtonPressed(sender: AnyObject) {
+        self.cloudKitHelper.saveEntryToCloud(imageToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date)
     }
 }
 
