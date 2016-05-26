@@ -54,16 +54,24 @@ class CloudKitHelper {
         })
     }
     
-    func saveEntryToCloud(imageToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate) {
+    func saveEntryToCloud(imageToSave: UIImage, receiptToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate) {
         let newRecord:CKRecord = CKRecord(recordType: "Image")
         let filename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
+        let receiptFilename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
         let url = NSURL.fileURLWithPath(NSTemporaryDirectory()).URLByAppendingPathComponent(filename)
+        let receiptURL = NSURL.fileURLWithPath(NSTemporaryDirectory()).URLByAppendingPathComponent(receiptFilename)
         
         do {
             let data = UIImagePNGRepresentation(imageToSave)!
             try data.writeToURL(url, options: NSDataWritingOptions.AtomicWrite)
             let asset = CKAsset(fileURL: url)
             newRecord["Image"] = asset
+            
+            let receiptData = UIImagePNGRepresentation(receiptToSave)!
+            try receiptData.writeToURL(receiptURL, options: NSDataWritingOptions.AtomicWrite)
+            let receiptAsset = CKAsset(fileURL: receiptURL)
+            newRecord["Receipt"] = receiptAsset
+        
             newRecord["Title"] = label
             newRecord["Description"] = description
             newRecord["StartDate"] = startDate

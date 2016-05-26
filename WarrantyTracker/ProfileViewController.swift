@@ -24,6 +24,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var warrantyImage: UIImage!
     var warrantyRecords: [CKRecord] = []
     
+    // Use NSUserDefaults to store all images and variables associated
+    // with the row the user selects
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,7 +86,28 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print(indexPath)
+        
+        let record = warrantyRecords[indexPath.row]
+        
+        /*
+        if let asset = record["Image"] as? CKAsset,
+            data = NSData(contentsOfURL: asset.fileURL),
+            image = UIImage(data: data)
+        {
+            defaults.setObject(image, forKey: "Image")
+        }
+        
+        if let receiptAsset = record["Receipt"] as? CKAsset,
+            data = NSData(contentsOfURL: receiptAsset.fileURL),
+            receiptImage = UIImage(data: data)
+        {
+            defaults.setObject(receiptImage, forKey: "Receipt")
+        }*/
+        
+        defaults.setObject(record["Title"] as? String, forKey: "Title")
+        defaults.setObject(record["Description"] as? String, forKey: "Description")
+        defaults.setObject(record["StartDate"] as? NSDate, forKey: "StartDate")
+        defaults.setObject(record["EndDate"] as? NSDate, forKey: "EndDate")
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////////////

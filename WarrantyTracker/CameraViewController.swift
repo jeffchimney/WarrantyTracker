@@ -13,6 +13,7 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     @IBOutlet weak var staticTableView: UITableView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var cameraView: UIImageView!
+    @IBOutlet weak var receptView: UIImageView!
     @IBOutlet weak var captureButton: UITabBarItem!
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -25,6 +26,9 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     var textFieldSelected: Bool!
     var kbHeight: CGFloat!
     var imageToSave: UIImage!
+    var receiptToSave: UIImage!
+    
+    var picturesTaken = 0
     
     let cloudKitHelper = CloudKitHelper()
     
@@ -53,11 +57,13 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         // if using navbar, use 64 instead of 20 for inset.
         staticTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         
-        // Set up camera view and provide options for upload.
-        let imagePickerActionSheet = UIAlertController(title: "Take or Upload a Photo",
+        // prompt for image of item
+        if imageToSave == nil {
+            // Set up camera view and provide options for upload.
+            let imagePickerActionSheet = UIAlertController(title: "Take or Upload a Photo of the Item",
                                                        message: nil, preferredStyle: .ActionSheet)
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            let cameraButton = UIAlertAction(title: "Take Photo",
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                let cameraButton = UIAlertAction(title: "Take Photo of Item",
                                              style: .Default) { (alert) -> Void in
                                                 let imagePicker = UIImagePickerController()
                                                 imagePicker.delegate = self
@@ -65,10 +71,10 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
                                                 self.presentViewController(imagePicker,
                                                                            animated: true,
                                                                            completion: nil)
+                }
+                imagePickerActionSheet.addAction(cameraButton)
             }
-            imagePickerActionSheet.addAction(cameraButton)
-        }
-        let libraryButton = UIAlertAction(title: "Choose Existing",
+            let libraryButton = UIAlertAction(title: "Choose Existing",
                                           style: .Default) { (alert) -> Void in
                                             let imagePicker = UIImagePickerController()
                                             imagePicker.delegate = self
@@ -76,14 +82,50 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
                                             self.presentViewController(imagePicker,
                                                                        animated: true,
                                                                        completion: nil)
-        }
-        imagePickerActionSheet.addAction(libraryButton)
-        let cancelButton = UIAlertAction(title: "Cancel",
+            }
+            imagePickerActionSheet.addAction(libraryButton)
+            let cancelButton = UIAlertAction(title: "Cancel",
                                          style: .Cancel) { (alert) -> Void in
-        }
-        imagePickerActionSheet.addAction(cancelButton)
-        presentViewController(imagePickerActionSheet, animated: true,
+            }
+            imagePickerActionSheet.addAction(cancelButton)
+            presentViewController(imagePickerActionSheet, animated: true,
                               completion: nil)
+            
+        // prompt to take picture of recepit
+        } else if receiptToSave == nil {
+            // Set up camera view and provide options for upload.
+            let imagePickerActionSheet = UIAlertController(title: "Take or Upload a Photo of Your Receipt",
+                                                           message: nil, preferredStyle: .ActionSheet)
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                let cameraButton = UIAlertAction(title: "Take Photo of Receipt",
+                                                 style: .Default) { (alert) -> Void in
+                                                    let imagePicker = UIImagePickerController()
+                                                    imagePicker.delegate = self
+                                                    imagePicker.sourceType = .Camera
+                                                    self.presentViewController(imagePicker,
+                                                                               animated: true,
+                                                                               completion: nil)
+                }
+                imagePickerActionSheet.addAction(cameraButton)
+            }
+            let libraryButton = UIAlertAction(title: "Choose Existing",
+                                              style: .Default) { (alert) -> Void in
+                                                let imagePicker = UIImagePickerController()
+                                                imagePicker.delegate = self
+                                                imagePicker.sourceType = .PhotoLibrary
+                                                self.presentViewController(imagePicker,
+                                                                           animated: true,
+                                                                           completion: nil)
+            }
+            imagePickerActionSheet.addAction(libraryButton)
+            let cancelButton = UIAlertAction(title: "Cancel",
+                                             style: .Cancel) { (alert) -> Void in
+            }
+            imagePickerActionSheet.addAction(cancelButton)
+            presentViewController(imagePickerActionSheet, animated: true,
+                                  completion: nil)
+            
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -131,20 +173,34 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     
     func imagePickerController(picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let selectedPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let scaledImage = scaleImage(selectedPhoto, maxDimension: 640)
         
-        cameraView.contentMode = .ScaleAspectFit
-        cameraView.image = scaledImage
+        // handle choosing item picture
+        if imageToSave == nil {
+            let selectedPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let scaledImage = scaleImage(selectedPhoto, maxDimension: 640)
         
-        imageToSave = scaledImage
+            cameraView.contentMode = .ScaleAspectFit
+            cameraView.image = scaledImage
         
-        addActivityIndicator()
-        
-        dismissViewControllerAnimated(true, completion: {
-            self.performImageRecognition(scaledImage)
+            imageToSave = scaledImage
+            picturesTaken = picturesTaken + 1
+            dismissViewControllerAnimated(true, completion: nil)
+        // handle choosing receipt picture
+        } else if receiptToSave == nil {
+            let selectedPhoto = info[UIImagePickerControllerOriginalImage] as! UIImage
+            let scaledImage = scaleImage(selectedPhoto, maxDimension: 640)
             
-        })
+            receptView.contentMode = .ScaleAspectFit
+            receptView.image = scaledImage
+            
+            receiptToSave = scaledImage
+            
+            addActivityIndicator()
+            
+            dismissViewControllerAnimated(true, completion: {
+                self.performImageRecognition(scaledImage)
+            })
+        }
     }
     
     func performImageRecognition(image: UIImage) {
@@ -174,11 +230,11 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if (imageToSave != nil && titleTextField.text != "" && detailsTextField.text != "") {
+        if (imageToSave != nil && receiptToSave != nil && titleTextField.text != "" && detailsTextField.text != "") {
             saveEntryButton.userInteractionEnabled = true
             saveEntryButton.tintColor = UIColor.blueColor()
         }
-        
+    
         return true
     }
     
@@ -211,7 +267,7 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func saveWarrantyButtonPressed(sender: AnyObject) {
-        self.cloudKitHelper.saveEntryToCloud(imageToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date)
+        self.cloudKitHelper.saveEntryToCloud(imageToSave, receiptToSave: receiptToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date)
     }
 }
 
