@@ -8,12 +8,20 @@
 
 import UIKit
 
-class CameraViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CameraViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     @IBOutlet weak var staticTableView: UITableView!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var cameraView: UIImageView!
     @IBOutlet weak var captureButton: UITabBarItem!
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var detailsTextField: UITextField!
+    @IBOutlet weak var warrantyBeginsTextField: UITextField!
+    @IBOutlet weak var warrantyEndsTextField: UITextField!
+    
+    var textFieldSelected: Bool!
+    var kbHeight: CGFloat!
     
     let cloudKitHelper = CloudKitHelper()
     
@@ -23,9 +31,21 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         
         staticTableView.delegate = self
         staticTableView.dataSource = self
+        
+        titleTextField.delegate = self
+        detailsTextField.delegate = self
+        warrantyBeginsTextField.delegate = self
+        warrantyEndsTextField.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        // watch for keyboard to hide/show
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        
+        textFieldSelected = false
+        
         staticTableView.tableHeaderView = UIView.init(frame: CGRectMake(0, 0, self.view.frame.size.width, 20))
         // Set up camera view and provide options for upload.
         let imagePickerActionSheet = UIAlertController(title: "Take or Upload a Photo",
@@ -58,6 +78,12 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         imagePickerActionSheet.addAction(cancelButton)
         presentViewController(imagePickerActionSheet, animated: true,
                               completion: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // preserve aspect ratio when scaling for Tesseract
@@ -136,6 +162,39 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
+    
+    // hid and show keyboard functions
+    func keyboardWillShow(notification: NSNotification) {
+        textFieldSelected = true
+        if let userInfo = notification.userInfo {
+            if let keyboardSize =  (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+                kbHeight = keyboardSize.height*1.25
+                self.animateTextField(true)
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        self.animateTextField(false)
+    }
+    
+    // move screen up if showing and down if hiding
+    func animateTextField(up: Bool) {
+        if !textFieldSelected {
+            let movement = (up ? -kbHeight : kbHeight)
+        
+            UIView.animateWithDuration(0.3, animations: {
+                self.view.frame = CGRectOffset(self.view.frame, 0, movement)
+            })
+        }
     }
 }
 
