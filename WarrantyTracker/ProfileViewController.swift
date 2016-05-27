@@ -89,25 +89,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let record = warrantyRecords[indexPath.row]
         
-        /*
-        if let asset = record["Image"] as? CKAsset,
-            data = NSData(contentsOfURL: asset.fileURL),
-            image = UIImage(data: data)
-        {
-            defaults.setObject(image, forKey: "Image")
+        
+        if let asset = record["Image"] as? CKAsset {
+            defaults.setObject(asset.fileURL.absoluteString, forKey: "AssetURLString")
         }
         
-        if let receiptAsset = record["Receipt"] as? CKAsset,
-            data = NSData(contentsOfURL: receiptAsset.fileURL),
-            receiptImage = UIImage(data: data)
-        {
-            defaults.setObject(receiptImage, forKey: "Receipt")
-        }*/
+        if let receiptAsset = record["Receipt"] as? CKAsset {
+            defaults.setObject(receiptAsset.fileURL.absoluteString, forKey: "ReceiptURLString")
+        }
         
         defaults.setObject(record["Title"] as? String, forKey: "Title")
         defaults.setObject(record["Description"] as? String, forKey: "Description")
         defaults.setObject(record["StartDate"] as? NSDate, forKey: "StartDate")
         defaults.setObject(record["EndDate"] as? NSDate, forKey: "EndDate")
+        
+        
+
+        performSegueWithIdentifier("showDetail", sender: nil)
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////////////
