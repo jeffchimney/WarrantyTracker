@@ -103,6 +103,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         defaults.setObject(record["StartDate"] as? NSDate, forKey: "StartDate")
         defaults.setObject(record["EndDate"] as? NSDate, forKey: "EndDate")
         
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         performSegueWithIdentifier("showDetail", sender: nil)
     }

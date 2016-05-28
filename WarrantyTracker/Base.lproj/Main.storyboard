@@ -91,22 +91,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="6YP-bZ-znx"/>
-                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" constant="20" symbolic="YES" id="ICE-pF-5oM"/>
-                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="MLz-Sq-xSA"/>
-                            <constraint firstAttribute="trailing" secondItem="PmZ-Qn-PkF" secondAttribute="trailing" id="zBh-dm-btI"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="F32-an-koB"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" constant="20" symbolic="YES" id="HV3-FS-9ad"/>
+                            <constraint firstAttribute="trailing" secondItem="PmZ-Qn-PkF" secondAttribute="trailing" id="Pgc-gj-Ggp"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="T5J-dW-OwA"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="2sU-hx-ddR"/>
+                    <navigationItem key="navigationItem" id="eNC-on-TUx"/>
                     <connections>
                         <outlet property="WarrantiesTableView" destination="PmZ-Qn-PkF" id="5Xv-LH-50I"/>
                         <outlet property="settingsButton" destination="acW-dT-cKf" id="uSi-Vb-4Kb"/>
-                        <segue destination="Ugg-r0-79d" kind="show" identifier="showDetail" id="Xqe-MT-dgi"/>
+                        <segue destination="Ugg-r0-79d" kind="show" identifier="showDetail" id="nAC-VF-tGY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1513" y="-331"/>
+            <point key="canvasLocation" x="1441" y="-331"/>
         </scene>
         <!--Details Table View Controller-->
         <scene sceneID="WTD-B9-imD">
@@ -205,14 +205,14 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O5I-TM-FUY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2201" y="-331"/>
+            <point key="canvasLocation" x="2125" y="-331"/>
         </scene>
-        <!--Capture-->
+        <!--Camera View Controller-->
         <scene sceneID="w04-hb-l88">
             <objects>
                 <tableViewController id="bMr-sX-3yx" customClass="CameraViewController" customModule="WarrantyTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aHx-cG-6k4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -421,13 +421,7 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Capture" image="unselectedCamera" selectedImage="selectedCamera" id="zp2-Md-eGJ">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="05t-5Z-JKk"/>
                     <connections>
                         <outlet property="activityIndicator" destination="UNY-U7-wRO" id="mPQ-dp-LYF"/>
                         <outlet property="cameraView" destination="B0x-ac-RF4" id="Hm5-6b-dwY"/>
@@ -443,29 +437,28 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o23-Hx-9HT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1513" y="313"/>
+            <point key="canvasLocation" x="1441" y="321"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="KWt-cs-7Ys" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="bMr-sX-3yx" kind="relationship" relationship="viewControllers" id="Bph-ve-78D"/>
-                        <segue destination="Tej-Uy-Xb8" kind="relationship" relationship="viewControllers" id="QBv-mf-g34"/>
+                        <segue destination="eRz-Q9-Qcr" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="MEO-J7-8l0" kind="relationship" relationship="viewControllers" id="Bph-ve-78D"/>
+                        <segue destination="UvP-8m-wIo" kind="relationship" relationship="viewControllers" id="QBv-mf-g34"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--Settings-->
+        <!--Settings View Controller-->
         <scene sceneID="cdp-Vl-yiY">
             <objects>
                 <viewController id="Tej-Uy-Xb8" customClass="SettingsViewController" customModule="WarrantyTracker" customModuleProvider="target" sceneMemberID="viewController">
@@ -478,23 +471,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="unselectedSettings" selectedImage="selectedSettings" id="n1n-la-S0v">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="pDh-c4-DR1"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gk2-So-F8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="701" y="965"/>
+            <point key="canvasLocation" x="1441" y="965"/>
         </scene>
         <!--Profile-->
-        <scene sceneID="dAo-Ot-irw">
+        <scene sceneID="1ZV-ZY-Afv">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KWt-cs-7Ys" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eRz-Q9-Qcr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="unselectedProfile" selectedImage="selectedProfile" id="acW-dT-cKf">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
@@ -503,18 +490,68 @@
                         </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XOe-Y7-jVe">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BKW-CY-ygb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="kTL-EA-zDE"/>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="NhS-s5-Nhg"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1r4-lc-4tG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gbr-Zs-d8W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="701" y="-331"/>
+        </scene>
+        <!--Capture-->
+        <scene sceneID="kxv-fW-oh9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MEO-J7-8l0" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Capture" image="unselectedCamera" selectedImage="selectedCamera" id="zp2-Md-eGJ">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4I7-2i-qLF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="bMr-sX-3yx" kind="relationship" relationship="rootViewController" id="nhJ-96-paW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EbS-Y5-ir5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="701" y="321"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="fWU-Zg-Sf1">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UvP-8m-wIo" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" image="unselectedSettings" selectedImage="selectedSettings" id="n1n-la-S0v">
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
+                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pmP-e8-Dr8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Tej-Uy-Xb8" kind="relationship" relationship="rootViewController" id="6RG-uR-uOh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="plZ-J0-gZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="701" y="965"/>
         </scene>
     </scenes>
     <resources>
@@ -525,4 +562,5 @@
         <image name="unselectedProfile" width="50" height="50"/>
         <image name="unselectedSettings" width="50" height="50"/>
     </resources>
+    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>
