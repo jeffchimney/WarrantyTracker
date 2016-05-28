@@ -20,6 +20,8 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     @IBOutlet weak var detailsTextField: UITextField!
     @IBOutlet weak var warrantyBeginsPicker: UIDatePicker!
     @IBOutlet weak var warrantyEndsPicker: UIDatePicker!
+    @IBOutlet var numberOfWeeksSegmentControl: UISegmentedControl!
+    @IBOutlet var tagsTextField: UITextField!
     
     @IBOutlet weak var saveEntryButton: UIButton!
     
@@ -47,6 +49,8 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         
         warrantyBeginsPicker.datePickerMode = UIDatePickerMode.Date
         warrantyEndsPicker.datePickerMode = UIDatePickerMode.Date
+        
+        numberOfWeeksSegmentControl.selectedSegmentIndex = 1
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -268,7 +272,7 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func saveWarrantyButtonPressed(sender: AnyObject) {
-        self.cloudKitHelper.saveEntryToCloud(imageToSave, receiptToSave: receiptToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date)
+        self.cloudKitHelper.saveEntryToCloud(imageToSave, receiptToSave: receiptToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date, weeksBeforeReminder: numberOfWeeksSegmentControl.selectedSegmentIndex+1, tags: tagsTextField.text!)
     }
 }
 

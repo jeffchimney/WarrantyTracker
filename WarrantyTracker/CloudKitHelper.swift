@@ -54,7 +54,7 @@ class CloudKitHelper {
         })
     }
     
-    func saveEntryToCloud(imageToSave: UIImage, receiptToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate) {
+    func saveEntryToCloud(imageToSave: UIImage, receiptToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate, weeksBeforeReminder: Int, tags: String) {
         let newRecord:CKRecord = CKRecord(recordType: "Image")
         let filename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
         let receiptFilename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
@@ -76,6 +76,8 @@ class CloudKitHelper {
             newRecord["Description"] = description
             newRecord["StartDate"] = startDate
             newRecord["EndDate"] = endDate
+            newRecord["WeeksBeforeReminder"] = weeksBeforeReminder
+            newRecord["Tags"] = tags
         }
         catch {
             print("Error writing data", error)

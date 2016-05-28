@@ -14,16 +14,21 @@ class DetailsTableViewController: UITableViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
     
+    var titleLabelString: String!
+    var detailsLabelString: String!
+    var itemImage: UIImage!
+    var receiptImage: UIImage!
+    var startDate: NSDate!
+    var endDate: NSDate!
+    
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var receiptImageView: UIImageView!
+    @IBOutlet var startDateLabel: UILabel!
+    @IBOutlet var endDateLabel: UILabel!
     
     var container = CKContainer.defaultContainer()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
-    
-    // Use NSUserDefaults to store all images and variables associated
-    // with the row the user selects
-    let defaults = NSUserDefaults.standardUserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,32 +40,18 @@ class DetailsTableViewController: UITableViewController {
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         self.tableView.allowsSelection = false
         
-        /*
-        if let asset = currentRecord["Image"] as? CKAsset,
-            data = NSData(contentsOfURL: asset.fileURL),
-            image = UIImage(data: data)
-        {
-            warrantyImage = image
-        } */
-        
-        let titleString = defaults.objectForKey("Title") as? String
-        let descriptionString = defaults.objectForKey("Description") as? String
-        let receiptURLString = defaults.objectForKey("ReceiptURLString") as? String
-        let imageURLString = defaults.objectForKey("AssetURLString") as? String
-        
-        titleLabel.text = titleString
-        detailsLabel.text = descriptionString
-        
-        /*
-        let receiptDataURL = NSURL(fileURLWithPath: receiptURLString!)
-        let receiptData = NSData(contentsOfURL: receiptDataURL)
-        let receiptImage = UIImage(data: receiptData!)
+        titleLabel.text = titleLabelString
+        detailsLabel.text = detailsLabelString
+        itemImageView.image = itemImage
         receiptImageView.image = receiptImage
         
-        let imageDataURL = NSURL(fileURLWithPath: imageURLString!)
-        let imageData = NSData(contentsOfURL: imageDataURL)
-        let imageImage = UIImage(data: imageData!)
-        itemImageView.image = imageImage */
+        // format date properly as string
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let startDateString = dateFormatter.stringFromDate(startDate)
+        startDateLabel.text = startDateString
+        let endDateString = dateFormatter.stringFromDate(endDate)
+        endDateLabel.text = endDateString
     }
 
     override func didReceiveMemoryWarning() {

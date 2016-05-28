@@ -9,7 +9,7 @@
 import UIKit
 import CloudKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var WarrantiesTableView: UITableView!
     @IBOutlet weak var settingsButton: UITabBarItem!
@@ -23,19 +23,34 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var warrantyImage: UIImage!
     var warrantyRecords: [CKRecord] = []
+    var recordsMatchingSearch: [CKRecord] = []
     
-    // Use NSUserDefaults to store all images and variables associated
-    // with the row the user selects
-    let defaults = NSUserDefaults.standardUserDefaults()
+    var titleToPass:String!
+    var detailsToPass:String!
+    var itemImageToPass: UIImage!
+    var receiptImageToPass: UIImage!
+    var startDateToPass: NSDate!
+    var endDateToPass: NSDate!
+    
+    var searchBar:UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width, 20))
         
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
         
         WarrantiesTableView.delegate = self
         WarrantiesTableView.dataSource = self
+        searchBar.delegate = self
+        
+        // add search bar to nav bar
+        searchBar.placeholder = "Search"
+        
+        let rightNavBarButton = UIBarButtonItem(customView:searchBar)
+        self.navigationItem.rightBarButtonItem = rightNavBarButton
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +63,35 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         getAssetsFromCloudKit()
     }
     
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+        
+        for record in warrantyRecords {
+            let searchTerm = searchBar.text
+            let recordTags = record["Tags"] as! String
+            
+            if recordTags.containsString(searchTerm!) {
+                recordsMatchingSearch.append(record)
+            }
+        }
+        
+        rowsInTable = recordsMatchingSearch.count
+        
+        // reload table view with data matching search
+        WarrantiesTableView.reloadData()
+    }
+    
     //////////////////////////////////////////////////////////////////////////////////////////////////
     // ------------------------  UITableViewDataSource Delegate Methods --------------------------  //
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,55 +101,105 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rowsInTable // number of entries in cloudkit
+        return rowsInTable // number of entries in cloudkit or items matching search
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
-        let index = indexPath.row
-        let currentRecord = warrantyRecords[index]
-        if let asset = currentRecord["Image"] as? CKAsset,
-            data = NSData(contentsOfURL: asset.fileURL),
-            image = UIImage(data: data)
-        {
-            warrantyImage = image
+        if searchBar.text == "" {
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+            let index = indexPath.row
+            let currentRecord = warrantyRecords[index]
+            if let asset = currentRecord["Image"] as? CKAsset,
+                data = NSData(contentsOfURL: asset.fileURL),
+                image = UIImage(data: data)
+            {
+                warrantyImage = image
+            }
+            // populate cells with info from cloudkit
+            cell.cellImageView.image = warrantyImage
+            cell.warrantyLabel.text = currentRecord["Title"] as? String
+            cell.descriptionLabel.text = currentRecord["Description"] as? String
+            let endDate = currentRecord["EndDate"] as! NSDate
+        
+            // format date properly as string
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let endDateString = dateFormatter.stringFromDate(endDate)
+            cell.endDateLabel.text = endDateString
+        
+            return cell
+        // if the user has entered a search term, only show those items that have a matching tag
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+            let index = indexPath.row
+            let currentRecord = recordsMatchingSearch[index]
+            if let asset = currentRecord["Image"] as? CKAsset,
+                data = NSData(contentsOfURL: asset.fileURL),
+                image = UIImage(data: data)
+            {
+                warrantyImage = image
+            }
+            // populate cells with info from cloudkit
+            cell.cellImageView.image = warrantyImage
+            cell.warrantyLabel.text = currentRecord["Title"] as? String
+            cell.descriptionLabel.text = currentRecord["Description"] as? String
+            let endDate = currentRecord["EndDate"] as! NSDate
+            
+            // format date properly as string
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let endDateString = dateFormatter.stringFromDate(endDate)
+            cell.endDateLabel.text = endDateString
+            
+            return cell
         }
-        // populate cells with info from cloudkit
-        cell.cellImageView.image = warrantyImage
-        cell.warrantyLabel.text = currentRecord["Title"] as? String
-        cell.descriptionLabel.text = currentRecord["Description"] as? String
-        let endDate = currentRecord["EndDate"] as! NSDate
-        
-        // format date properly as string
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy"
-        let endDateString = dateFormatter.stringFromDate(endDate)
-        cell.endDateLabel.text = endDateString
-        
-        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let record = warrantyRecords[indexPath.row]
+        let recordTapped = warrantyRecords[indexPath.row]
         
-        
-        if let asset = record["Image"] as? CKAsset {
-            defaults.setObject(asset.fileURL.absoluteString, forKey: "AssetURLString")
+        if let asset = recordTapped["Image"] as? CKAsset,
+            data = NSData(contentsOfURL: asset.fileURL),
+            image = UIImage(data: data)
+        {
+            itemImageToPass = image
         }
         
-        if let receiptAsset = record["Receipt"] as? CKAsset {
-            defaults.setObject(receiptAsset.fileURL.absoluteString, forKey: "ReceiptURLString")
+        if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
+            receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
+            receiptImage = UIImage(data: receiptData)
+        {
+            receiptImageToPass = receiptImage
         }
         
-        defaults.setObject(record["Title"] as? String, forKey: "Title")
-        defaults.setObject(record["Description"] as? String, forKey: "Description")
-        defaults.setObject(record["StartDate"] as? NSDate, forKey: "StartDate")
-        defaults.setObject(record["EndDate"] as? NSDate, forKey: "EndDate")
+        titleToPass = recordTapped["Title"] as? String
+        detailsToPass = recordTapped["Description"] as? String
+        startDateToPass = recordTapped["StartDate"] as? NSDate
+        endDateToPass = recordTapped["EndDate"] as? NSDate
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
+        //self.navigationController?.pushViewController(detailsTableViewController, animated: true)
         performSegueWithIdentifier("showDetail", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let detailsTableViewController = segue.destinationViewController as! DetailsTableViewController
+        
+        detailsTableViewController.titleLabelString = titleToPass
+        detailsTableViewController.detailsLabelString = detailsToPass
+        detailsTableViewController.itemImage = itemImageToPass
+        detailsTableViewController.receiptImage = receiptImageToPass
+        detailsTableViewController.startDate = startDateToPass
+        detailsTableViewController.endDate = endDateToPass
+        
+        //detailsTableViewController.titleLabel.text = recordTapped["Title"] as? String
+        //detailsTableViewController.detailsLabel.text = recordTapped["Description"] as? String
+        //detailsTableViewController.startDate = recordTapped["StartDate"] as? NSDate
+        //detailsTableViewController.EndDate = recordTapped["EndDate"] as? NSDate
+        //detailsTableViewController.itemImageView.image = itemImage
+        //detailsTableViewController.receiptImageView.image = receiptImage
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////////////
