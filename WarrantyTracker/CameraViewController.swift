@@ -55,7 +55,8 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         textFieldSelected = false
         
         // if using navbar, use 64 instead of 20 for inset.
-        staticTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        //staticTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        staticTableView.allowsSelection = false
         
         // prompt for image of item
         if imageToSave == nil {

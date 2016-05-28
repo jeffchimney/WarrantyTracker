@@ -27,12 +27,13 @@ class DetailsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
         
         // if using navbar, use 64 instead of 20 for inset.
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        self.tableView.allowsSelection = false
         
         /*
         if let asset = currentRecord["Image"] as? CKAsset,
@@ -50,6 +51,7 @@ class DetailsTableViewController: UITableViewController {
         titleLabel.text = titleString
         detailsLabel.text = descriptionString
         
+        /*
         let receiptDataURL = NSURL(fileURLWithPath: receiptURLString!)
         let receiptData = NSData(contentsOfURL: receiptDataURL)
         let receiptImage = UIImage(data: receiptData!)
@@ -58,7 +60,7 @@ class DetailsTableViewController: UITableViewController {
         let imageDataURL = NSURL(fileURLWithPath: imageURLString!)
         let imageData = NSData(contentsOfURL: imageDataURL)
         let imageImage = UIImage(data: imageData!)
-        itemImageView.image = imageImage
+        itemImageView.image = imageImage */
     }
 
     override func didReceiveMemoryWarning() {

@@ -104,7 +104,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         defaults.setObject(record["EndDate"] as? NSDate, forKey: "EndDate")
         
         
-
         performSegueWithIdentifier("showDetail", sender: nil)
     }
     
