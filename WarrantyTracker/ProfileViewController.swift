@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var warrantyImage: UIImage!
     var warrantyRecords: [CKRecord] = []
     var recordsMatchingSearch: [CKRecord] = []
+    var activeRecordsList: [CKRecord] = []
     
     var titleToPass:String!
     var detailsToPass:String!
@@ -51,6 +52,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let rightNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.rightBarButtonItem = rightNavBarButton
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,6 +63,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(animated: Bool) {
         // load cloudkit assets or later use
         getAssetsFromCloudKit()
+        
+        if activeRecordsList.count != 0 {
+            rowsInTable = activeRecordsList.count
+        } else {
+            // load cloudkit assets or later use
+            getAssetsFromCloudKit()
+        }
     }
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
@@ -77,12 +86,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
         
-        for record in warrantyRecords {
-            let searchTerm = searchBar.text
-            let recordTags = record["Tags"] as! String
+        for record in 0...warrantyRecords.count-1 {
+            let searchTerm = searchBar.text?.lowercaseString
+            let currentRecord = warrantyRecords[record]
+            let recordTags = currentRecord["Tags"] as? String
+            let recordTagsLowerCase = recordTags?.lowercaseString
             
-            if recordTags.containsString(searchTerm!) {
-                recordsMatchingSearch.append(record)
+            // make sure there is a tag before trying to compare it
+            if recordTags == nil {
+                print("Found Nil")
+            } else if recordTagsLowerCase!.containsString(searchTerm!) {
+                recordsMatchingSearch.append(currentRecord)
             }
         }
         
@@ -105,34 +119,59 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if searchBar.text == "" {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
-            let index = indexPath.row
-            let currentRecord = warrantyRecords[index]
-            if let asset = currentRecord["Image"] as? CKAsset,
-                data = NSData(contentsOfURL: asset.fileURL),
-                image = UIImage(data: data)
-            {
-                warrantyImage = image
+        if (activeRecordsList.count == 0) {
+            if searchBar.text == "" {
+                let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+                let index = indexPath.row
+                let currentRecord = warrantyRecords[index]
+                if let asset = currentRecord["Image"] as? CKAsset,
+                    data = NSData(contentsOfURL: asset.fileURL),
+                    image = UIImage(data: data)
+                {
+                    warrantyImage = image
+                }
+                // populate cells with info from cloudkit
+                cell.cellImageView.image = warrantyImage
+                cell.warrantyLabel.text = currentRecord["Title"] as? String
+                cell.descriptionLabel.text = currentRecord["Description"] as? String
+                let endDate = currentRecord["EndDate"] as! NSDate
+            
+                // format date properly as string
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                let endDateString = dateFormatter.stringFromDate(endDate)
+                cell.endDateLabel.text = endDateString
+            
+                return cell
+            // if the user has entered a search term, only show those items that have a matching tag
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+                let index = indexPath.row
+                let currentRecord = recordsMatchingSearch[index]
+                if let asset = currentRecord["Image"] as? CKAsset,
+                    data = NSData(contentsOfURL: asset.fileURL),
+                    image = UIImage(data: data)
+                {
+                    warrantyImage = image
+                }
+                // populate cells with info from cloudkit
+                cell.cellImageView.image = warrantyImage
+                cell.warrantyLabel.text = currentRecord["Title"] as? String
+                cell.descriptionLabel.text = currentRecord["Description"] as? String
+                let endDate = currentRecord["EndDate"] as! NSDate
+                
+                // format date properly as string
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                let endDateString = dateFormatter.stringFromDate(endDate)
+                cell.endDateLabel.text = endDateString
+                
+                return cell
             }
-            // populate cells with info from cloudkit
-            cell.cellImageView.image = warrantyImage
-            cell.warrantyLabel.text = currentRecord["Title"] as? String
-            cell.descriptionLabel.text = currentRecord["Description"] as? String
-            let endDate = currentRecord["EndDate"] as! NSDate
-        
-            // format date properly as string
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "dd/MM/yyyy"
-            let endDateString = dateFormatter.stringFromDate(endDate)
-            cell.endDateLabel.text = endDateString
-        
-            return cell
-        // if the user has entered a search term, only show those items that have a matching tag
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
             let index = indexPath.row
-            let currentRecord = recordsMatchingSearch[index]
+            let currentRecord = activeRecordsList[index]
             if let asset = currentRecord["Image"] as? CKAsset,
                 data = NSData(contentsOfURL: asset.fileURL),
                 image = UIImage(data: data)
@@ -157,29 +196,55 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let recordTapped = warrantyRecords[indexPath.row]
+        if searchBar.text == "" {
+            activeRecordsList = warrantyRecords
+            let recordTapped = warrantyRecords[indexPath.row]
+            
+            if let asset = recordTapped["Image"] as? CKAsset,
+                data = NSData(contentsOfURL: asset.fileURL),
+                image = UIImage(data: data)
+            {
+                itemImageToPass = image
+            }
         
-        if let asset = recordTapped["Image"] as? CKAsset,
-            data = NSData(contentsOfURL: asset.fileURL),
-            image = UIImage(data: data)
-        {
-            itemImageToPass = image
+            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
+                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
+                receiptImage = UIImage(data: receiptData)
+            {
+                receiptImageToPass = receiptImage
+            }
+        
+            titleToPass = recordTapped["Title"] as? String
+            detailsToPass = recordTapped["Description"] as? String
+            startDateToPass = recordTapped["StartDate"] as? NSDate
+            endDateToPass = recordTapped["EndDate"] as? NSDate
+        
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            activeRecordsList = recordsMatchingSearch
+            let recordTapped = recordsMatchingSearch[indexPath.row]
+            
+            if let asset = recordTapped["Image"] as? CKAsset,
+                data = NSData(contentsOfURL: asset.fileURL),
+                image = UIImage(data: data)
+            {
+                itemImageToPass = image
+            }
+            
+            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
+                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
+                receiptImage = UIImage(data: receiptData)
+            {
+                receiptImageToPass = receiptImage
+            }
+            
+            titleToPass = recordTapped["Title"] as? String
+            detailsToPass = recordTapped["Description"] as? String
+            startDateToPass = recordTapped["StartDate"] as? NSDate
+            endDateToPass = recordTapped["EndDate"] as? NSDate
+            
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
-        
-        if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
-            receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
-            receiptImage = UIImage(data: receiptData)
-        {
-            receiptImageToPass = receiptImage
-        }
-        
-        titleToPass = recordTapped["Title"] as? String
-        detailsToPass = recordTapped["Description"] as? String
-        startDateToPass = recordTapped["StartDate"] as? NSDate
-        endDateToPass = recordTapped["EndDate"] as? NSDate
-        
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
         //self.navigationController?.pushViewController(detailsTableViewController, animated: true)
         performSegueWithIdentifier("showDetail", sender: nil)
     }
@@ -193,13 +258,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         detailsTableViewController.receiptImage = receiptImageToPass
         detailsTableViewController.startDate = startDateToPass
         detailsTableViewController.endDate = endDateToPass
-        
-        //detailsTableViewController.titleLabel.text = recordTapped["Title"] as? String
-        //detailsTableViewController.detailsLabel.text = recordTapped["Description"] as? String
-        //detailsTableViewController.startDate = recordTapped["StartDate"] as? NSDate
-        //detailsTableViewController.EndDate = recordTapped["EndDate"] as? NSDate
-        //detailsTableViewController.itemImageView.image = itemImage
-        //detailsTableViewController.receiptImageView.image = receiptImage
+        detailsTableViewController.itemWasInRecordsList = activeRecordsList
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////////////

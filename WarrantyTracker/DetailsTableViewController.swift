@@ -26,6 +26,8 @@ class DetailsTableViewController: UITableViewController {
     @IBOutlet var startDateLabel: UILabel!
     @IBOutlet var endDateLabel: UILabel!
     
+    var itemWasInRecordsList: [CKRecord]!
+    
     var container = CKContainer.defaultContainer()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
@@ -52,6 +54,12 @@ class DetailsTableViewController: UITableViewController {
         startDateLabel.text = startDateString
         let endDateString = dateFormatter.stringFromDate(endDate)
         endDateLabel.text = endDateString
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let profileViewController = segue.destinationViewController as! ProfileViewController
+        
+        profileViewController.activeRecordsList = itemWasInRecordsList
     }
 
     override func didReceiveMemoryWarning() {
