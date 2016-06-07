@@ -34,9 +34,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var endDateToPass: NSDate!
     
     var searchBar:UISearchBar!
+    var navBar: UINavigationBar = UINavigationBar()
+    
+    @IBOutlet weak var recentOrExpiringControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.frame.origin.y = -10
         
         searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width, 20))
         
@@ -52,7 +57,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let rightNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.rightBarButtonItem = rightNavBarButton
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -104,6 +108,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // reload table view with data matching search
         WarrantiesTableView.reloadData()
+    }
+    
+    @IBAction func toggleRecentExpiringControllerChanged(sender: AnyObject) {
+        // if recent is selected
+        if recentOrExpiringControl.selectedSegmentIndex == 0 {
+            print("Recent")
+        } else {
+        // if expiring is selected
+            print("Expiring")
+        }
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////////////
