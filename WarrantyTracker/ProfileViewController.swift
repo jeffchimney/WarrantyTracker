@@ -22,7 +22,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var rowsInTable = 0
     
     var warrantyImage: UIImage!
+    // sorted by start date
     var warrantyRecords: [CKRecord] = []
+    // sorted by end date
+    var warrantyRecordsByExpiring: [CKRecord] = []
     var recordsMatchingSearch: [CKRecord] = []
     var activeRecordsList: [CKRecord] = []
     
@@ -66,13 +69,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(animated: Bool) {
         // load cloudkit assets or later use
-        getAssetsFromCloudKit()
+        getAssetsFromCloudKitByRecent()
         
         if activeRecordsList.count != 0 {
             rowsInTable = activeRecordsList.count
         } else {
             // load cloudkit assets or later use
-            getAssetsFromCloudKit()
+            getAssetsFromCloudKitByRecent()
         }
     }
     
@@ -113,10 +116,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func toggleRecentExpiringControllerChanged(sender: AnyObject) {
         // if recent is selected
         if recentOrExpiringControl.selectedSegmentIndex == 0 {
-            print("Recent")
+            
         } else {
         // if expiring is selected
-            print("Expiring")
+            
         }
     }
     
@@ -147,7 +150,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 // populate cells with info from cloudkit
                 cell.cellImageView.image = warrantyImage
                 cell.warrantyLabel.text = currentRecord["Title"] as? String
-                cell.descriptionLabel.text = currentRecord["Description"] as? String
+                cell.descriptionTextView.text = currentRecord["Description"] as? String
                 let endDate = currentRecord["EndDate"] as! NSDate
             
                 // format date properly as string
@@ -155,6 +158,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 let endDateString = dateFormatter.stringFromDate(endDate)
                 cell.endDateLabel.text = endDateString
+                
+                let startDate = currentRecord["StartDate"] as! NSDate
+                
+                //format properly as string
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                let startDateString = dateFormatter.stringFromDate(startDate)
+                cell.startDateLabel.text = startDateString
             
                 return cell
             // if the user has entered a search term, only show those items that have a matching tag
@@ -171,7 +181,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 // populate cells with info from cloudkit
                 cell.cellImageView.image = warrantyImage
                 cell.warrantyLabel.text = currentRecord["Title"] as? String
-                cell.descriptionLabel.text = currentRecord["Description"] as? String
+                cell.descriptionTextView.text = currentRecord["Description"] as? String
                 let endDate = currentRecord["EndDate"] as! NSDate
                 
                 // format date properly as string
@@ -179,6 +189,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 let endDateString = dateFormatter.stringFromDate(endDate)
                 cell.endDateLabel.text = endDateString
+                
+                let startDate = currentRecord["StartDate"] as! NSDate
+                
+                //format properly as string
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                let startDateString = dateFormatter.stringFromDate(startDate)
+                cell.startDateLabel.text = startDateString
                 
                 return cell
             }
@@ -195,7 +212,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             // populate cells with info from cloudkit
             cell.cellImageView.image = warrantyImage
             cell.warrantyLabel.text = currentRecord["Title"] as? String
-            cell.descriptionLabel.text = currentRecord["Description"] as? String
+            cell.descriptionTextView.text = currentRecord["Description"] as? String
             let endDate = currentRecord["EndDate"] as! NSDate
             
             // format date properly as string
@@ -203,6 +220,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             dateFormatter.dateFormat = "dd/MM/yyyy"
             let endDateString = dateFormatter.stringFromDate(endDate)
             cell.endDateLabel.text = endDateString
+            
+            let startDate = currentRecord["StartDate"] as! NSDate
+            
+            //format properly as string
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let startDateString = dateFormatter.stringFromDate(startDate)
+            cell.startDateLabel.text = startDateString
             
             return cell
         }
@@ -279,9 +303,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // --------------------------------  CloudKit 'Get'  Methods ---------------------------------- //
     /////////////////////////////// Set methods are in CloudKitHelper ////////////////////////////////
     
-    func getAssetsFromCloudKit() {
+    func getAssetsFromCloudKitByRecent() {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Image", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "StartDate", ascending: false)]
         
         privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
             
@@ -289,6 +314,24 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.rowsInTable = (results?.count)!
             
             self.warrantyRecords = results!
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.WarrantiesTableView.reloadData()
+            })
+        })
+    }
+    
+    func getAssetsFromCloudKitByExpiring() {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: "Image", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "EndDate", ascending: true)]
+        
+        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+            
+            // tell the table how many rows it should have
+            self.rowsInTable = (results?.count)!
+            
+            self.warrantyRecordsByExpiring = results!
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.WarrantiesTableView.reloadData()
