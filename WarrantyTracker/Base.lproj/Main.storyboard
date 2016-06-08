@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -35,7 +35,7 @@
                                 </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PmZ-Qn-PkF">
-                                <rect key="frame" x="0.0" y="108" width="600" height="531"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="125" id="Hk2-VT-P2T" customClass="WarrantyTableViewCell" customModule="WarrantyTracker" customModuleProvider="target">
@@ -57,14 +57,6 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MkR-Ua-AVt">
-                                                    <rect key="frame" x="117" y="37" width="475" height="50"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00/00/0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFS-y9-JGB">
                                                     <rect key="frame" x="117" y="95" width="84" height="21"/>
                                                     <constraints>
@@ -89,6 +81,14 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MkR-Ua-AVt">
+                                                    <rect key="frame" x="117" y="37" width="475" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="MkR-Ua-AVt" firstAttribute="trailing" secondItem="ZXN-Dr-RHj" secondAttribute="trailingMargin" id="4Ax-Ho-ZxI"/>
@@ -123,12 +123,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="F2c-6P-dH3"/>
-                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="top" secondItem="5S0-yk-2Dw" secondAttribute="bottom" constant="8" symbolic="YES" id="ODT-2e-YsP"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="PmZ-Qn-PkF" secondAttribute="bottom" constant="-39" id="VSo-Fd-a4s"/>
-                            <constraint firstItem="5S0-yk-2Dw" firstAttribute="centerX" secondItem="PmZ-Qn-PkF" secondAttribute="centerX" id="gTu-xi-VIz"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="centerX" secondItem="5S0-yk-2Dw" secondAttribute="centerX" id="9Hi-RI-Zmj"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="bDl-5u-wWB"/>
+                            <constraint firstAttribute="trailing" secondItem="PmZ-Qn-PkF" secondAttribute="trailing" id="t1j-aI-snh"/>
                             <constraint firstItem="5S0-yk-2Dw" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="7" id="tgv-eq-p6I"/>
-                            <constraint firstAttribute="trailing" secondItem="PmZ-Qn-PkF" secondAttribute="trailing" id="tyI-sR-gvM"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="uXl-eb-is1"/>
+                            <constraint firstItem="PmZ-Qn-PkF" firstAttribute="top" secondItem="5S0-yk-2Dw" secondAttribute="bottom" constant="8" symbolic="YES" id="w01-uj-M9a"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eNC-on-TUx">
@@ -611,31 +611,11 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="cdp-Vl-yiY">
-            <objects>
-                <viewController id="Tej-Uy-Xb8" customClass="SettingsViewController" customModule="WarrantyTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="x9l-ee-qkL"/>
-                        <viewControllerLayoutGuide type="bottom" id="PDP-KY-Ep8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gfp-wU-oXZ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="pDh-c4-DR1"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gk2-So-F8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1441" y="965"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="1ZV-ZY-Afv">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eRz-Q9-Qcr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="unselectedProfile" selectedImage="selectedProfile" id="acW-dT-cKf">
+                    <tabBarItem key="tabBarItem" title="" image="list" selectedImage="list" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
@@ -702,19 +682,107 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Tej-Uy-Xb8" kind="relationship" relationship="rootViewController" id="6RG-uR-uOh"/>
+                        <segue destination="Whb-2E-Efq" kind="relationship" relationship="rootViewController" id="o4c-TX-2Cg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="plZ-J0-gZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="701" y="1003"/>
         </scene>
+        <!--Tags Table View Controller-->
+        <scene sceneID="KKK-hu-ksm">
+            <objects>
+                <viewController id="Whb-2E-Efq" customClass="TagsTableViewController" customModule="WarrantyTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mvb-3w-kaX"/>
+                        <viewControllerLayoutGuide type="bottom" id="nIh-uQ-XKS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xE9-Ai-yQf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="y4j-Cb-MMW">
+                                <rect key="frame" x="180" y="71" width="240" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="Eab-A1-0lr"/>
+                                    <constraint firstAttribute="width" constant="240" id="wQ1-k7-scA"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Recent"/>
+                                    <segment title="Expiring"/>
+                                </segments>
+                                <connections>
+                                    <action selector="recentAndExpiringValueChanged:" destination="Whb-2E-Efq" eventType="valueChanged" id="FCo-39-lH7"/>
+                                </connections>
+                            </segmentedControl>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YLT-7h-ugc">
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="tagCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tagCell" rowHeight="50" id="6yx-GH-Ibz" customClass="TagTableViewCell" customModule="WarrantyTracker">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6yx-GH-Ibz" id="UiO-8Q-rwU">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tag Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nra-uq-Umb">
+                                                    <rect key="frame" x="8" y="14" width="78" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# Associated" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fx-KR-dyN">
+                                                    <rect key="frame" x="492" y="14" width="100" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6fx-KR-dyN" firstAttribute="trailing" secondItem="UiO-8Q-rwU" secondAttribute="trailingMargin" id="7UC-FI-hDM"/>
+                                                <constraint firstItem="nra-uq-Umb" firstAttribute="centerY" secondItem="UiO-8Q-rwU" secondAttribute="centerY" id="FSI-Jw-bQv"/>
+                                                <constraint firstItem="nra-uq-Umb" firstAttribute="baseline" secondItem="6fx-KR-dyN" secondAttribute="baseline" id="Vuf-ha-lvC"/>
+                                                <constraint firstItem="nra-uq-Umb" firstAttribute="leading" secondItem="UiO-8Q-rwU" secondAttribute="leadingMargin" id="jan-kT-Asa"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="numberWithTagLabel" destination="6fx-KR-dyN" id="tdj-Vb-FKv"/>
+                                            <outlet property="tagNameLabel" destination="nra-uq-Umb" id="d0A-B7-KDD"/>
+                                            <outlet property="warrantyLabel" destination="nra-uq-Umb" id="RJU-7a-EZx"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="YLT-7h-ugc" firstAttribute="bottom" secondItem="nIh-uQ-XKS" secondAttribute="top" id="5yq-Rt-OXV"/>
+                            <constraint firstAttribute="trailing" secondItem="YLT-7h-ugc" secondAttribute="trailing" id="Fxa-Pr-pNv"/>
+                            <constraint firstItem="YLT-7h-ugc" firstAttribute="leading" secondItem="xE9-Ai-yQf" secondAttribute="leading" id="OpU-Fx-EQ0"/>
+                            <constraint firstItem="y4j-Cb-MMW" firstAttribute="top" secondItem="mvb-3w-kaX" secondAttribute="bottom" constant="7" id="VDd-6M-bil"/>
+                            <constraint firstItem="YLT-7h-ugc" firstAttribute="centerX" secondItem="y4j-Cb-MMW" secondAttribute="centerX" id="WLN-yl-JtK"/>
+                            <constraint firstItem="YLT-7h-ugc" firstAttribute="top" secondItem="y4j-Cb-MMW" secondAttribute="bottom" constant="8" symbolic="YES" id="ZFU-o1-FqI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Kr1-pE-09u">
+                        <nil key="title"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="recentAndExpiringControl" destination="y4j-Cb-MMW" id="2xb-O8-F0D"/>
+                        <outlet property="tagsTableView" destination="YLT-7h-ugc" id="zfJ-xJ-Ep0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AK0-mY-qKE" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1441" y="1003"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="selectedProfile" width="50" height="50"/>
+        <image name="list" width="66" height="66"/>
         <image name="selectedTags" width="66" height="66"/>
         <image name="unselectedPlus" width="66" height="66"/>
-        <image name="unselectedProfile" width="50" height="50"/>
         <image name="unselectedTags" width="66" height="66"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

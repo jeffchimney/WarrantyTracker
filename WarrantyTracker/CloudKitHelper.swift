@@ -92,5 +92,33 @@ class CloudKitHelper {
                 }
             }
         })
+        
+        // save each tag to Tag table
+        let tagArray = tags.componentsSeparatedByString(",")
+        
+        // trim whitespace from each entry in tagArray (only leading and trailing whitespace)
+        for tag in tagArray {
+            let trimmedTag = tag.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            print(trimmedTag)
+            
+            let newTagRecord: CKRecord = CKRecord(recordType: "Tag")
+            
+            //CKReference *artistReference = [[CKReference alloc] initWithRecordID:artistRecordID action:CKReferenceActionNone];
+            
+            let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.DeleteSelf)
+            
+            newTagRecord["Name"] = trimmedTag
+            newTagRecord["Record"] = recordReference
+            
+            privateDB.saveRecord(newTagRecord, completionHandler: { (_, error) -> Void in
+                if error != nil {
+                    NSLog(error!.localizedDescription)
+                } else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        print("Saved Tag")
+                    }
+                }
+            })
+        }
     }
 }

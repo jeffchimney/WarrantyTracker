@@ -13,7 +13,8 @@
 		BE8299F91CF53DCC009150F0 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F81CF53DCC009150F0 /* CoreImage.framework */; };
 		BE829A001CF545CA009150F0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */; };
 		BE829A021CF5464D009150F0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE829A011CF5464D009150F0 /* libc++.tbd */; };
-		BEA899E81CF51F3200DF86E7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA899E71CF51F3200DF86E7 /* SettingsViewController.swift */; };
+		BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */; };
+		BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
 		BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */; };
 		BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */; };
@@ -52,7 +53,8 @@
 		BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		BE8299FC1CF53FB0009150F0 /* WarrantyTracker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WarrantyTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		BE829A011CF5464D009150F0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		BEA899E71CF51F3200DF86E7 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsTableViewController.swift; sourceTree = "<group>"; };
+		BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTableViewCell.swift; sourceTree = "<group>"; };
 		BEF5F7C41CEF8AAB00F3B769 /* WarrantyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -134,12 +136,13 @@
 			children = (
 				BEF7EB0C1CF60E0E000CCE75 /* WarrantyTracker.entitlements */,
 				BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */,
-				BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */,
-				BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */,
 				BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */,
+				BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */,
+				BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */,
+				BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */,
 				BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */,
+				BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */,
 				BEF7EB111CF62FC7000CCE75 /* WarrantyTableViewCell.swift */,
-				BEA899E71CF51F3200DF86E7 /* SettingsViewController.swift */,
 				BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */,
 				BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */,
 				BEF5F7D21CEF8AAC00F3B769 /* LaunchScreen.storyboard */,
@@ -305,11 +308,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */,
 				BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */,
 				BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */,
-				BEA899E81CF51F3200DF86E7 /* SettingsViewController.swift in Sources */,
 				BEF7EB101CF60EC3000CCE75 /* CloudKitHelper.swift in Sources */,
 				BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */,
+				BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */,
 				BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */,
 				BEF7EB121CF62FC7000CCE75 /* WarrantyTableViewCell.swift in Sources */,
 			);

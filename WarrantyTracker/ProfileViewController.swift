@@ -37,14 +37,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var endDateToPass: NSDate!
     
     var searchBar:UISearchBar!
-    var navBar: UINavigationBar = UINavigationBar()
     
     @IBOutlet weak var recentOrExpiringControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationController?.navigationBar.frame.origin.y = -10
         
         searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width, 20))
         
@@ -123,9 +120,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    // ------------------------  UITableViewDataSource Delegate Methods --------------------------  //
-    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // MARK: - UITableViewDataSource Delegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -299,9 +295,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         detailsTableViewController.itemWasInRecordsList = activeRecordsList
     }
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    // --------------------------------  CloudKit 'Get'  Methods ---------------------------------- //
-    /////////////////////////////// Set methods are in CloudKitHelper ////////////////////////////////
+    
+    // MARK: - CloudKit 'Get'  Methods
     
     func getAssetsFromCloudKitByRecent() {
         let predicate = NSPredicate(value: true)
