@@ -24,13 +24,21 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var tagRecords: [CKRecord] = []
     var recordsMatchingSearch: [CKRecord] = []
-    var occurrencesOfTags: [CKRecord: Int] = [:]
+    var occurrencesOfTags: [String: Int] = [:]
     
     var rowsInTable = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tagsTableView.delegate = self
+        tagsTableView.dataSource = self
+        
+        publicDB = container.publicCloudDatabase
+        privateDB = container.privateCloudDatabase
 
+        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width, 20))
+        
         searchBar.placeholder = "Search"
         
         let rightNavBarButton = UIBarButtonItem(customView:searchBar)
@@ -68,7 +76,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             let currentRecord = tagRecords[index]
             
             cell.tagNameLabel.text = currentRecord["Name"] as? String
-            cell.numberWithTagLabel.text = currentRecord["Record"] as? String
+            cell.numberWithTagLabel.text = String(occurrencesOfTags[currentRecord["Name"] as! String]!)
             
             return cell
             // if the user has entered a search term, only show those items that have a matching tag
@@ -78,7 +86,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             let currentRecord = recordsMatchingSearch[index]
             
             cell.tagNameLabel.text = currentRecord["Name"] as? String
-            cell.numberWithTagLabel.text = currentRecord["Record"] as? String
+            cell.numberWithTagLabel.text = String(occurrencesOfTags[currentRecord["Name"] as! String]!)
             
             return cell
         }
@@ -112,13 +120,10 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             let occurrencesPerTagDict = self.findOccurencesOfItemsInArray(results!)
             
             // tell the table how many rows it should have
-            self.rowsInTable = (occurrencesPerTagDict.count)
-            
             self.tagRecords = self.removeDuplicatesFromArray(results!)
+            self.rowsInTable = self.tagRecords.count
+            print(self.rowsInTable)
             self.occurrencesOfTags = self.findOccurencesOfItemsInArray(results!)
-            
-            print(self.tagRecords)
-            print(self.occurrencesOfTags)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.tagsTableView.reloadData()
@@ -128,28 +133,31 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     // helper method to get an array of discrete units
     func removeDuplicatesFromArray(inputArray: [CKRecord]) -> [CKRecord] {
-        var uniqueArray: [CKRecord] = []
+        var uniqueArray: [String] = []
+        var uniqueItemArray: [CKRecord] = []
         
         for item in inputArray {
-            if !uniqueArray.contains(item) {
-                uniqueArray.append(item)
+            if !uniqueArray.contains(item["Name"] as! String) {
+                uniqueArray.append(item["Name"] as! String)
+                print(item["Name"] as! String)
+                uniqueItemArray.append(item)
             }
         }
-        return uniqueArray
+        return uniqueItemArray
     }
     
     // helper method to count occurrences of each tag
-    func findOccurencesOfItemsInArray(inputArray: [CKRecord]) -> [CKRecord: Int] {
-        var occurrencesOfItemsDict = [CKRecord: Int]()
+    func findOccurencesOfItemsInArray(inputArray: [CKRecord]) -> [String: Int] {
+        var occurrencesOfItemsDict = [String: Int]()
         
         for item in inputArray {
             // if the key already exists in the dictionary, add one to value
-            if occurrencesOfItemsDict[item] != nil {
-                let numberOfOccurrences = occurrencesOfItemsDict[item]
-                occurrencesOfItemsDict[item] = numberOfOccurrences! + 1
+            if occurrencesOfItemsDict[item["Name"] as! String] != nil {
+                let numberOfOccurrences = occurrencesOfItemsDict[item["Name"] as! String]
+                occurrencesOfItemsDict[item["Name"] as! String] = numberOfOccurrences! + 1
             } else {
             // add key to the dictionary and set value to 1
-                occurrencesOfItemsDict[item] = 1
+                occurrencesOfItemsDict[item["Name"] as! String] = 1
             }
         }
         
