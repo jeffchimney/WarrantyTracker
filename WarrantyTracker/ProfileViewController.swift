@@ -29,12 +29,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var recordsMatchingSearch: [CKRecord] = []
     var activeRecordsList: [CKRecord] = []
     
-    var titleToPass:String!
-    var detailsToPass:String!
-    var itemImageToPass: UIImage!
-    var receiptImageToPass: UIImage!
-    var startDateToPass: NSDate!
-    var endDateToPass: NSDate!
+    var recordToPass:CKRecord?
     
     var searchBar:UISearchBar!
     
@@ -137,14 +132,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
                 let index = indexPath.row
                 let currentRecord = warrantyRecords[index]
-                if let asset = currentRecord["Image"] as? CKAsset,
-                    data = NSData(contentsOfURL: asset.fileURL),
-                    image = UIImage(data: data)
-                {
-                    warrantyImage = image
-                }
+                
                 // populate cells with info from cloudkit
-                cell.cellImageView.image = warrantyImage
                 cell.warrantyLabel.text = currentRecord["Title"] as? String
                 cell.descriptionTextView.text = currentRecord["Description"] as? String
                 let endDate = currentRecord["EndDate"] as! NSDate
@@ -168,14 +157,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
                 let index = indexPath.row
                 let currentRecord = recordsMatchingSearch[index]
-                if let asset = currentRecord["Image"] as? CKAsset,
-                    data = NSData(contentsOfURL: asset.fileURL),
-                    image = UIImage(data: data)
-                {
-                    warrantyImage = image
-                }
+                
                 // populate cells with info from cloudkit
-                cell.cellImageView.image = warrantyImage
                 cell.warrantyLabel.text = currentRecord["Title"] as? String
                 cell.descriptionTextView.text = currentRecord["Description"] as? String
                 let endDate = currentRecord["EndDate"] as! NSDate
@@ -199,14 +182,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
             let index = indexPath.row
             let currentRecord = activeRecordsList[index]
-            if let asset = currentRecord["Image"] as? CKAsset,
-                data = NSData(contentsOfURL: asset.fileURL),
-                image = UIImage(data: data)
-            {
-                warrantyImage = image
-            }
+            
             // populate cells with info from cloudkit
-            cell.cellImageView.image = warrantyImage
             cell.warrantyLabel.text = currentRecord["Title"] as? String
             cell.descriptionTextView.text = currentRecord["Description"] as? String
             let endDate = currentRecord["EndDate"] as! NSDate
@@ -234,48 +211,42 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             activeRecordsList = warrantyRecords
             let recordTapped = warrantyRecords[indexPath.row]
             
-            if let asset = recordTapped["Image"] as? CKAsset,
-                data = NSData(contentsOfURL: asset.fileURL),
-                image = UIImage(data: data)
-            {
-                itemImageToPass = image
-            }
+//            if let asset = recordTapped["Image"] as? CKAsset,
+//                data = NSData(contentsOfURL: asset.fileURL),
+//                image = UIImage(data: data)
+//            {
+//                itemImageToPass = image
+//            }
+//        
+//            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
+//                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
+//                receiptImage = UIImage(data: receiptData)
+//            {
+//                receiptImageToPass = receiptImage
+//            }
         
-            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
-                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
-                receiptImage = UIImage(data: receiptData)
-            {
-                receiptImageToPass = receiptImage
-            }
-        
-            titleToPass = recordTapped["Title"] as? String
-            detailsToPass = recordTapped["Description"] as? String
-            startDateToPass = recordTapped["StartDate"] as? NSDate
-            endDateToPass = recordTapped["EndDate"] as? NSDate
+            recordToPass = recordTapped
         
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
             activeRecordsList = recordsMatchingSearch
             let recordTapped = recordsMatchingSearch[indexPath.row]
             
-            if let asset = recordTapped["Image"] as? CKAsset,
-                data = NSData(contentsOfURL: asset.fileURL),
-                image = UIImage(data: data)
-            {
-                itemImageToPass = image
-            }
+//            if let asset = recordTapped["Image"] as? CKAsset,
+//                data = NSData(contentsOfURL: asset.fileURL),
+//                image = UIImage(data: data)
+//            {
+//                itemImageToPass = image
+//            }
+//            
+//            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
+//                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
+//                receiptImage = UIImage(data: receiptData)
+//            {
+//                receiptImageToPass = receiptImage
+//            }
             
-            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
-                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
-                receiptImage = UIImage(data: receiptData)
-            {
-                receiptImageToPass = receiptImage
-            }
-            
-            titleToPass = recordTapped["Title"] as? String
-            detailsToPass = recordTapped["Description"] as? String
-            startDateToPass = recordTapped["StartDate"] as? NSDate
-            endDateToPass = recordTapped["EndDate"] as? NSDate
+            recordToPass = recordTapped
             
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
@@ -286,12 +257,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let detailsTableViewController = segue.destinationViewController as! DetailsTableViewController
         
-        detailsTableViewController.titleLabelString = titleToPass
-        detailsTableViewController.detailsLabelString = detailsToPass
-        detailsTableViewController.itemImage = itemImageToPass
-        detailsTableViewController.receiptImage = receiptImageToPass
-        detailsTableViewController.startDate = startDateToPass
-        detailsTableViewController.endDate = endDateToPass
+        detailsTableViewController.recordToReceive = recordToPass
         detailsTableViewController.itemWasInRecordsList = activeRecordsList
     }
     
@@ -300,7 +266,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func getAssetsFromCloudKitByRecent() {
         let predicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: "Image", predicate: predicate)
+        let query = CKQuery(recordType: "Record", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "StartDate", ascending: false)]
         
         privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
@@ -318,7 +284,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func getAssetsFromCloudKitByExpiring() {
         let predicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: "Image", predicate: predicate)
+        let query = CKQuery(recordType: "Record", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "EndDate", ascending: true)]
         
         privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in

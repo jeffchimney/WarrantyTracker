@@ -14,12 +14,8 @@ class DetailsTableViewController: UITableViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailsLabel: UILabel!
     
-    var titleLabelString: String!
-    var detailsLabelString: String!
-    var itemImage: UIImage!
-    var receiptImage: UIImage!
-    var startDate: NSDate!
-    var endDate: NSDate!
+    var recordToReceive: CKRecord!
+    var imagesRecords: [CKRecord] = []
     
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var receiptImageView: UIImageView!
@@ -32,20 +28,38 @@ class DetailsTableViewController: UITableViewController {
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
         
+        getAssetsFromCloudKitByRecent()
+        
+        activityIndicator.hidden = false
+        
+        // add activity indicator
+        //activityIndicator = UIActivityIndicatorView(frame: view.bounds)
+        activityIndicator.activityIndicatorViewStyle = .Gray
+        activityIndicator.backgroundColor = UIColor.whiteColor()
+        activityIndicator.startAnimating()
+        //self.view.addSubview(activityIndicator)
+        
         // if using navbar, use 64 instead of 20 for inset.
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
         self.tableView.allowsSelection = false
         
+        let titleLabelString = recordToReceive["Title"] as! String
+        let detailsLabelString = recordToReceive["Description"] as! String
+        //var itemImage = recordToReceive["Item"] as! NSDate
+        //var receiptImage = recordToReceive["Receipt"] as! NSDate
+        let startDate = recordToReceive["StartDate"] as! NSDate
+        let endDate = recordToReceive["EndDate"] as! NSDate
+        
         titleLabel.text = titleLabelString
         detailsLabel.text = detailsLabelString
-        itemImageView.image = itemImage
-        receiptImageView.image = receiptImage
         
         // format date properly as string
         let dateFormatter = NSDateFormatter()
@@ -65,6 +79,19 @@ class DetailsTableViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+//    func addActivityIndicator() {
+//        activityIndicator = UIActivityIndicatorView(frame: view.bounds)
+//        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+//        activityIndicator.backgroundColor = UIColor(white: 0, alpha: 0.25)
+//        activityIndicator.startAnimating()
+//        self.view.addSubview(activityIndicator)
+//    }
+    
+    func removeActivityIndicator() {
+        activityIndicator.removeFromSuperview()
+        activityIndicator = nil
     }
     
     // MARK: - Table view data source
@@ -135,4 +162,36 @@ class DetailsTableViewController: UITableViewController {
     }
     */
 
+    // MARK: - CloudKit Getters
+    
+    func getAssetsFromCloudKitByRecent() {
+        let reference = CKReference(record: recordToReceive, action: CKReferenceAction.DeleteSelf)
+        
+        let predicate = NSPredicate(format: "AssociatedRecord = %@", reference)
+        let query = CKQuery(recordType: "ImagesForRecord", predicate: predicate)
+        
+        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+            
+            // tell the table how many rows it should have
+            
+            self.imagesRecords = results!
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if self.imagesRecords.count != 0 {
+                    if let asset = self.imagesRecords[0]["Item"] as? CKAsset,
+                        data = NSData(contentsOfURL: asset.fileURL),
+                        image = UIImage(data: data) {
+                        self.itemImageView.image = image
+                    }
+                    
+                    if let receiptAsset = self.imagesRecords.first!["Receipt"] as? CKAsset,
+                        receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
+                        receiptImage = UIImage(data: receiptData) {
+                        self.receiptImageView.image = receiptImage
+                    }
+                    self.removeActivityIndicator()
+                }
+            })
+        })
+    }
 }

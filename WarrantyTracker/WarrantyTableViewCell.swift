@@ -12,7 +12,6 @@ class WarrantyTableViewCell: UITableViewCell {
     
     // MARK: Properties
     
-    @IBOutlet weak var cellImageView: UIImageView!
     @IBOutlet weak var warrantyLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var startDateLabel: UILabel!

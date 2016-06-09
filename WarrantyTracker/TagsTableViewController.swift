@@ -117,8 +117,6 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
         privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
             
-            let occurrencesPerTagDict = self.findOccurencesOfItemsInArray(results!)
-            
             // tell the table how many rows it should have
             self.tagRecords = self.removeDuplicatesFromArray(results!)
             self.rowsInTable = self.tagRecords.count

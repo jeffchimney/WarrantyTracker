@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE2624461D08E7CA002B95CB /* SelectedTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2624451D08E7CA002B95CB /* SelectedTagTableViewController.swift */; };
 		BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */; };
 		BE8299F51CF53D66009150F0 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F41CF53D66009150F0 /* TesseractOCR.framework */; };
 		BE8299F71CF53DA6009150F0 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = BE8299F61CF53DA6009150F0 /* tessdata */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE2624451D08E7CA002B95CB /* SelectedTagTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedTagTableViewController.swift; sourceTree = "<group>"; };
 		BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsTableViewController.swift; sourceTree = "<group>"; };
 		BE8299F41CF53D66009150F0 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = WarrantyTracker/TesseractOCR.framework; sourceTree = "<group>"; };
 		BE8299F61CF53DA6009150F0 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */,
 				BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */,
 				BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */,
+				BE2624451D08E7CA002B95CB /* SelectedTagTableViewController.swift */,
 				BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */,
 				BEF7EB111CF62FC7000CCE75 /* WarrantyTableViewCell.swift */,
 				BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */,
@@ -315,6 +318,7 @@
 				BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */,
 				BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */,
 				BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */,
+				BE2624461D08E7CA002B95CB /* SelectedTagTableViewController.swift in Sources */,
 				BEF7EB121CF62FC7000CCE75 /* WarrantyTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

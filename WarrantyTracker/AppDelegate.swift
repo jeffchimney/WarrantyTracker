@@ -16,6 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // On launch, open second tab of UITabBarController
+        if self.window!.rootViewController as? UITabBarController != nil {
+            let tabbarController = self.window!.rootViewController as! UITabBarController
+            tabbarController.selectedIndex = 1
+        }
+        else{
+            print("couldn't reach rootViewController named UITabBarController")
+        }
+        
         return true
     }
 

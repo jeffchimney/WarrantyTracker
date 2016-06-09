@@ -55,7 +55,8 @@ class CloudKitHelper {
     }
     
     func saveEntryToCloud(imageToSave: UIImage, receiptToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate, weeksBeforeReminder: Int, tags: String) {
-        let newRecord:CKRecord = CKRecord(recordType: "Image")
+        let newRecord:CKRecord = CKRecord(recordType: "Record")
+        let newImagesRecord: CKRecord = CKRecord(recordType: "ImagesForRecord")
         let filename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
         let receiptFilename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
         let url = NSURL.fileURLWithPath(NSTemporaryDirectory()).URLByAppendingPathComponent(filename)
@@ -65,12 +66,15 @@ class CloudKitHelper {
             let data = UIImagePNGRepresentation(imageToSave)!
             try data.writeToURL(url, options: NSDataWritingOptions.AtomicWrite)
             let asset = CKAsset(fileURL: url)
-            newRecord["Image"] = asset
+            newImagesRecord["Item"] = asset
             
             let receiptData = UIImagePNGRepresentation(receiptToSave)!
             try receiptData.writeToURL(receiptURL, options: NSDataWritingOptions.AtomicWrite)
             let receiptAsset = CKAsset(fileURL: receiptURL)
-            newRecord["Receipt"] = receiptAsset
+            newImagesRecord["Receipt"] = receiptAsset
+            
+            let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.DeleteSelf)
+            newImagesRecord["AssociatedRecord"] = recordReference
         
             newRecord["Title"] = label
             newRecord["Description"] = description
@@ -88,7 +92,17 @@ class CloudKitHelper {
                 NSLog(error!.localizedDescription)
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
-                    print("finished")
+                    print("Finished Saving Info")
+                }
+            }
+        })
+        
+        privateDB.saveRecord(newImagesRecord, completionHandler: { (_, error) -> Void in
+            if error != nil {
+                NSLog(error!.localizedDescription)
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    print("Finished Saving Images")
                 }
             }
         })
@@ -99,7 +113,6 @@ class CloudKitHelper {
         // trim whitespace from each entry in tagArray (only leading and trailing whitespace)
         for tag in tagArray {
             let trimmedTag = tag.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            print(trimmedTag)
             
             let newTagRecord: CKRecord = CKRecord(recordType: "Tag")
             
@@ -115,7 +128,7 @@ class CloudKitHelper {
                     NSLog(error!.localizedDescription)
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {
-                        print("Saved Tag")
+                        print("Finished Saving Tags")
                     }
                 }
             })
