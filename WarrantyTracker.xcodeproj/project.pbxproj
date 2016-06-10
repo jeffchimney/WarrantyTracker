@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE2624461D08E7CA002B95CB /* SelectedTagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2624451D08E7CA002B95CB /* SelectedTagTableViewController.swift */; };
 		BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */; };
 		BE8299F51CF53D66009150F0 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F41CF53D66009150F0 /* TesseractOCR.framework */; };
 		BE8299F71CF53DA6009150F0 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = BE8299F61CF53DA6009150F0 /* tessdata */; };
 		BE8299F91CF53DCC009150F0 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F81CF53DCC009150F0 /* CoreImage.framework */; };
 		BE829A001CF545CA009150F0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */; };
 		BE829A021CF5464D009150F0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BE829A011CF5464D009150F0 /* libc++.tbd */; };
+		BE97F8671D09EBD600E5FB6A /* SelectedTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97F8661D09EBD600E5FB6A /* SelectedTagViewController.swift */; };
 		BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */; };
 		BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
@@ -47,7 +47,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE2624451D08E7CA002B95CB /* SelectedTagTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedTagTableViewController.swift; sourceTree = "<group>"; };
 		BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsTableViewController.swift; sourceTree = "<group>"; };
 		BE8299F41CF53D66009150F0 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = WarrantyTracker/TesseractOCR.framework; sourceTree = "<group>"; };
 		BE8299F61CF53DA6009150F0 /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
@@ -55,6 +54,7 @@
 		BE8299FA1CF53DEF009150F0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		BE8299FC1CF53FB0009150F0 /* WarrantyTracker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WarrantyTracker-Bridging-Header.h"; sourceTree = "<group>"; };
 		BE829A011CF5464D009150F0 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		BE97F8661D09EBD600E5FB6A /* SelectedTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedTagViewController.swift; sourceTree = "<group>"; };
 		BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsTableViewController.swift; sourceTree = "<group>"; };
 		BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTableViewCell.swift; sourceTree = "<group>"; };
 		BEF5F7C41CEF8AAB00F3B769 /* WarrantyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,8 +143,8 @@
 				BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */,
 				BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */,
 				BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */,
-				BE2624451D08E7CA002B95CB /* SelectedTagTableViewController.swift */,
 				BEF7EB0F1CF60EC3000CCE75 /* CloudKitHelper.swift */,
+				BE97F8661D09EBD600E5FB6A /* SelectedTagViewController.swift */,
 				BEF7EB111CF62FC7000CCE75 /* WarrantyTableViewCell.swift */,
 				BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */,
 				BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */,
@@ -315,10 +315,10 @@
 				BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */,
 				BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */,
 				BEF7EB101CF60EC3000CCE75 /* CloudKitHelper.swift in Sources */,
+				BE97F8671D09EBD600E5FB6A /* SelectedTagViewController.swift in Sources */,
 				BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */,
 				BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */,
 				BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */,
-				BE2624461D08E7CA002B95CB /* SelectedTagTableViewController.swift in Sources */,
 				BEF7EB121CF62FC7000CCE75 /* WarrantyTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

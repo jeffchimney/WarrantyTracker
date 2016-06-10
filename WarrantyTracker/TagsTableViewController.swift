@@ -26,6 +26,9 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     var recordsMatchingSearch: [CKRecord] = []
     var occurrencesOfTags: [String: Int] = [:]
     
+    var selectedTag = ""
+    var recordsToPass: [CKRecord] = []
+    
     var rowsInTable = 0
 
     override func viewDidLoad() {
@@ -37,8 +40,8 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
 
-        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width, 20))
-        
+        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width-40, 20))
+        searchBar.delegate = self
         searchBar.placeholder = "Search"
         
         let rightNavBarButton = UIBarButtonItem(customView:searchBar)
@@ -46,9 +49,43 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        print(rowsInTable)
         // load cloudkit assets or later use
         getTagsFromCloudKit()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+        
+        for record in 0...tagRecords.count-1 {
+            let searchTerm = searchBar.text?.lowercaseString
+            let currentRecord = tagRecords[record]
+            let recordTags = currentRecord["Name"] as? String
+            let recordTagsLowerCase = recordTags?.lowercaseString
+            
+            // make sure there is a tag before trying to compare it
+            if recordTags == nil {
+                print("Found Nil")
+            } else if recordTagsLowerCase!.containsString(searchTerm!) {
+                recordsMatchingSearch.append(currentRecord)
+            }
+        }
+        
+        rowsInTable = recordsMatchingSearch.count
+        
+        // reload table view with data matching search
+        self.tagsTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,6 +131,10 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // handle table view cell selection
+        let recordTapped = tagRecords[indexPath.row]
+        selectedTag = recordTapped["Name"] as! String
+        
+        performSegueWithIdentifier("toRecordsWithTag", sender: nil)
     }
 
     // MARK: - Navigation
@@ -102,6 +143,9 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let selectedTagTableViewController = segue.destinationViewController as! SelectedTagViewController
+        
+        selectedTagTableViewController.selectedTag = selectedTag
     }
  
     @IBAction func recentAndExpiringValueChanged(sender: AnyObject) {
@@ -120,7 +164,6 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             // tell the table how many rows it should have
             self.tagRecords = self.removeDuplicatesFromArray(results!)
             self.rowsInTable = self.tagRecords.count
-            print(self.rowsInTable)
             self.occurrencesOfTags = self.findOccurencesOfItemsInArray(results!)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -137,7 +180,6 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         for item in inputArray {
             if !uniqueArray.contains(item["Name"] as! String) {
                 uniqueArray.append(item["Name"] as! String)
-                print(item["Name"] as! String)
                 uniqueItemArray.append(item)
             }
         }

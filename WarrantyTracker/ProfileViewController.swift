@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width, 20))
+        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width-40, 20))
         
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
@@ -210,20 +210,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         if searchBar.text == "" {
             activeRecordsList = warrantyRecords
             let recordTapped = warrantyRecords[indexPath.row]
-            
-//            if let asset = recordTapped["Image"] as? CKAsset,
-//                data = NSData(contentsOfURL: asset.fileURL),
-//                image = UIImage(data: data)
-//            {
-//                itemImageToPass = image
-//            }
-//        
-//            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
-//                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
-//                receiptImage = UIImage(data: receiptData)
-//            {
-//                receiptImageToPass = receiptImage
-//            }
         
             recordToPass = recordTapped
         
@@ -231,20 +217,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             activeRecordsList = recordsMatchingSearch
             let recordTapped = recordsMatchingSearch[indexPath.row]
-            
-//            if let asset = recordTapped["Image"] as? CKAsset,
-//                data = NSData(contentsOfURL: asset.fileURL),
-//                image = UIImage(data: data)
-//            {
-//                itemImageToPass = image
-//            }
-//            
-//            if let receiptAsset = recordTapped["Receipt"] as? CKAsset,
-//                receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
-//                receiptImage = UIImage(data: receiptData)
-//            {
-//                receiptImageToPass = receiptImage
-//            }
             
             recordToPass = recordTapped
             

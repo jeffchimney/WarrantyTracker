@@ -48,7 +48,7 @@
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MkR-Ua-AVt">
                                                     <rect key="frame" x="8" y="35" width="584" height="43"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -131,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1419" y="-331"/>
+            <point key="canvasLocation" x="1398" y="-331"/>
         </scene>
         <!--Details Table View Controller-->
         <scene sceneID="WTD-B9-imD">
@@ -765,17 +765,17 @@
                     <connections>
                         <outlet property="recentAndExpiringControl" destination="y4j-Cb-MMW" id="2xb-O8-F0D"/>
                         <outlet property="tagsTableView" destination="YLT-7h-ugc" id="zfJ-xJ-Ep0"/>
-                        <segue destination="IpT-4P-muO" kind="show" id="pMw-iW-Yn8"/>
+                        <segue destination="IpT-4P-muO" kind="show" identifier="toRecordsWithTag" id="ENp-l9-G6L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AK0-mY-qKE" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1441" y="1003"/>
+            <point key="canvasLocation" x="1433" y="1003"/>
         </scene>
-        <!--Selected Tag Table View Controller-->
+        <!--Selected Tag View Controller-->
         <scene sceneID="YTz-PT-BDX">
             <objects>
-                <viewController id="IpT-4P-muO" customClass="SelectedTagTableViewController" customModule="WarrantyTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="IpT-4P-muO" customClass="SelectedTagViewController" customModule="WarrantyTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PNB-iV-ePG"/>
                         <viewControllerLayoutGuide type="bottom" id="3cw-Nz-bmB"/>
@@ -809,7 +809,7 @@
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3z1-hG-AtR">
                                                     <rect key="frame" x="8" y="35" width="584" height="43"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -861,10 +861,10 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="descriptionTextView" destination="3z1-hG-AtR" id="aBC-55-I2S"/>
-                                            <outlet property="endDateLabel" destination="b4S-dC-DSs" id="d0g-tt-B1E"/>
-                                            <outlet property="startDateLabel" destination="miO-jJ-xTq" id="cu8-eT-OEG"/>
-                                            <outlet property="warrantyLabel" destination="jly-Sg-0dN" id="Ml8-pe-6cP"/>
+                                            <outlet property="descriptionTextView" destination="3z1-hG-AtR" id="yp5-Pn-dwR"/>
+                                            <outlet property="endDateLabel" destination="b4S-dC-DSs" id="Y50-R9-AFm"/>
+                                            <outlet property="startDateLabel" destination="miO-jJ-xTq" id="1oa-k5-9cf"/>
+                                            <outlet property="warrantyLabel" destination="jly-Sg-0dN" id="f4I-yS-XaT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -883,6 +883,10 @@
                     <navigationItem key="navigationItem" id="Ghz-NH-sSk">
                         <nil key="title"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="SelectedTagTableView" destination="8iR-9F-aWk" id="Orh-JJ-U8d"/>
+                        <segue destination="Ugg-r0-79d" kind="show" identifier="showRecordDetail" id="qLb-kw-kpQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pd0-yC-I2q" sceneMemberID="firstResponder"/>
             </objects>
@@ -895,5 +899,8 @@
         <image name="unselectedPlus" width="66" height="66"/>
         <image name="unselectedTags" width="66" height="66"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="qLb-kw-kpQ"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>
