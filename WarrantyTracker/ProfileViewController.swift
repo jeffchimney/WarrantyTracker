@@ -74,6 +74,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
+        
+        // on leaving search, reset results to all tags
+        activeRecordsList = warrantyRecords
+        rowsInTable = activeRecordsList.count
+        
+        WarrantiesTableView.reloadData()
     }
     
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
@@ -84,6 +90,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
+        
+        recordsMatchingSearch = []
         
         for record in 0...warrantyRecords.count-1 {
             let searchTerm = searchBar.text?.lowercaseString
@@ -127,61 +135,36 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if (activeRecordsList.count == 0) {
-            if searchBar.text == "" {
-                let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
-                let index = indexPath.row
-                let currentRecord = warrantyRecords[index]
-                
-                // populate cells with info from cloudkit
-                cell.warrantyLabel.text = currentRecord["Title"] as? String
-                cell.descriptionTextView.text = currentRecord["Description"] as? String
-                let endDate = currentRecord["EndDate"] as! NSDate
+        //if (activeRecordsList.count == 0) {
+        if searchBar.text == "" {
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+            let index = indexPath.row
+            let currentRecord = warrantyRecords[index]
             
-                // format date properly as string
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "dd/MM/yyyy"
-                let endDateString = dateFormatter.stringFromDate(endDate)
-                cell.endDateLabel.text = endDateString
-                
-                let startDate = currentRecord["StartDate"] as! NSDate
-                
-                //format properly as string
-                dateFormatter.dateFormat = "dd/MM/yyyy"
-                let startDateString = dateFormatter.stringFromDate(startDate)
-                cell.startDateLabel.text = startDateString
+            // populate cells with info from cloudkit
+            cell.warrantyLabel.text = currentRecord["Title"] as? String
+            cell.descriptionTextView.text = currentRecord["Description"] as? String
+            let endDate = currentRecord["EndDate"] as! NSDate
+        
+            // format date properly as string
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let endDateString = dateFormatter.stringFromDate(endDate)
+            cell.endDateLabel.text = endDateString
             
-                return cell
-            // if the user has entered a search term, only show those items that have a matching tag
-            } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
-                let index = indexPath.row
-                let currentRecord = recordsMatchingSearch[index]
-                
-                // populate cells with info from cloudkit
-                cell.warrantyLabel.text = currentRecord["Title"] as? String
-                cell.descriptionTextView.text = currentRecord["Description"] as? String
-                let endDate = currentRecord["EndDate"] as! NSDate
-                
-                // format date properly as string
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "dd/MM/yyyy"
-                let endDateString = dateFormatter.stringFromDate(endDate)
-                cell.endDateLabel.text = endDateString
-                
-                let startDate = currentRecord["StartDate"] as! NSDate
-                
-                //format properly as string
-                dateFormatter.dateFormat = "dd/MM/yyyy"
-                let startDateString = dateFormatter.stringFromDate(startDate)
-                cell.startDateLabel.text = startDateString
-                
-                return cell
-            }
+            let startDate = currentRecord["StartDate"] as! NSDate
+            
+            //format properly as string
+            dateFormatter.dateFormat = "dd/MM/yyyy"
+            let startDateString = dateFormatter.stringFromDate(startDate)
+            cell.startDateLabel.text = startDateString
+        
+            return cell
+        // if the user has entered a search term, only show those items that have a matching tag
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
             let index = indexPath.row
-            let currentRecord = activeRecordsList[index]
+            let currentRecord = recordsMatchingSearch[index]
             
             // populate cells with info from cloudkit
             cell.warrantyLabel.text = currentRecord["Title"] as? String
@@ -203,7 +186,31 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             return cell
         }
-    }
+    } //else {
+//            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+//            let index = indexPath.row
+//            let currentRecord = activeRecordsList[index]
+//            
+//            // populate cells with info from cloudkit
+//            cell.warrantyLabel.text = currentRecord["Title"] as? String
+//            cell.descriptionTextView.text = currentRecord["Description"] as? String
+//            let endDate = currentRecord["EndDate"] as! NSDate
+//            
+//            // format date properly as string
+//            let dateFormatter = NSDateFormatter()
+//            dateFormatter.dateFormat = "dd/MM/yyyy"
+//            let endDateString = dateFormatter.stringFromDate(endDate)
+//            cell.endDateLabel.text = endDateString
+//            
+//            let startDate = currentRecord["StartDate"] as! NSDate
+//            
+//            //format properly as string
+//            dateFormatter.dateFormat = "dd/MM/yyyy"
+//            let startDateString = dateFormatter.stringFromDate(startDate)
+//            cell.startDateLabel.text = startDateString
+//            
+//            return cell
+//        }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
@@ -245,7 +252,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             // tell the table how many rows it should have
             self.rowsInTable = (results?.count)!
-            
+            self.recordsMatchingSearch = results!
             self.warrantyRecords = results!
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -263,7 +270,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             // tell the table how many rows it should have
             self.rowsInTable = (results?.count)!
-            
+            self.recordsMatchingSearch = results!
             self.warrantyRecordsByExpiring = results!
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in

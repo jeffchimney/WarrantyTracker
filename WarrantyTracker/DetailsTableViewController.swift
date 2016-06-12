@@ -69,12 +69,6 @@ class DetailsTableViewController: UITableViewController {
         let endDateString = dateFormatter.stringFromDate(endDate)
         endDateLabel.text = endDateString
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let profileViewController = segue.destinationViewController as! ProfileViewController
-        
-        profileViewController.activeRecordsList = itemWasInRecordsList
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

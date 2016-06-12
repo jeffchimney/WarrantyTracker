@@ -16,7 +16,7 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     var selectedTag: String!
     var records: [CKRecord] = []
     var recordsWithTag: [CKRecord] = []
-    var activeRecordsList: [CKRecord] = []
+    //var activeRecordsList: [CKRecord] = []
     var recordsMatchingSearch: [CKRecord] = []
     
     var recordToPass: CKRecord!
@@ -53,6 +53,12 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
+
+        // on leaving search, reset results to all tags
+        recordsMatchingSearch = recordsWithTag
+        rowsInTable = recordsWithTag.count
+        
+        SelectedTagTableView.reloadData()
     }
     
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
@@ -63,6 +69,8 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
+        
+        recordsMatchingSearch = []
         
         for record in 0...recordsWithTag.count-1 {
             let searchTerm = searchBar.text?.lowercaseString
@@ -129,14 +137,13 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if searchBar.text == "" {
-            activeRecordsList = recordsWithTag
+            recordsMatchingSearch = recordsWithTag
             let recordTapped = recordsWithTag[indexPath.row]
             
             recordToPass = recordTapped
             
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
-            activeRecordsList = recordsMatchingSearch
             let recordTapped = recordsMatchingSearch[indexPath.row]
             
             recordToPass = recordTapped
@@ -151,7 +158,7 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
         let detailsTableViewController = segue.destinationViewController as! DetailsTableViewController
         
         detailsTableViewController.recordToReceive = recordToPass
-        detailsTableViewController.itemWasInRecordsList = activeRecordsList
+        detailsTableViewController.itemWasInRecordsList = recordsMatchingSearch
     }
 
     /*
