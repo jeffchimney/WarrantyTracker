@@ -23,7 +23,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     var searchBar:UISearchBar!
     
     var tagRecords: [CKRecord] = []
-    var recordsMatchingSearch: [CKRecord] = []
+    var activeRecords: [CKRecord] = []
     var occurrencesOfTags: [String: Int] = [:]
     
     var selectedTag = ""
@@ -56,6 +56,12 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         
+        // on leaving search, reset results to all tags
+        activeRecords = tagRecords
+        rowsInTable = activeRecords.count
+        
+        tagsTableView.reloadData()
+        
         searchBar.resignFirstResponder()
     }
     
@@ -68,6 +74,8 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
         
+        activeRecords = []
+        
         for record in 0...tagRecords.count-1 {
             let searchTerm = searchBar.text?.lowercaseString
             let currentRecord = tagRecords[record]
@@ -78,11 +86,11 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             if recordTags == nil {
                 print("Found Nil")
             } else if recordTagsLowerCase!.containsString(searchTerm!) {
-                recordsMatchingSearch.append(currentRecord)
+                activeRecords.append(currentRecord)
             }
         }
         
-        rowsInTable = recordsMatchingSearch.count
+        rowsInTable = activeRecords.count
         
         // reload table view with data matching search
         self.tagsTableView.reloadData()
@@ -120,7 +128,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             let cell = tableView.dequeueReusableCellWithIdentifier("tagCell", forIndexPath: indexPath) as! TagTableViewCell
             let index = indexPath.row
-            let currentRecord = recordsMatchingSearch[index]
+            let currentRecord = activeRecords[index]
             
             cell.tagNameLabel.text = currentRecord["Name"] as? String
             cell.numberWithTagLabel.text = String(occurrencesOfTags[currentRecord["Name"] as! String]!)
@@ -131,7 +139,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // handle table view cell selection
-        let recordTapped = tagRecords[indexPath.row]
+        let recordTapped = activeRecords[indexPath.row]
         selectedTag = recordTapped["Name"] as! String
         
         performSegueWithIdentifier("toRecordsWithTag", sender: nil)
@@ -163,7 +171,8 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             
             // tell the table how many rows it should have
             self.tagRecords = self.removeDuplicatesFromArray(results!)
-            self.rowsInTable = self.tagRecords.count
+            self.activeRecords = self.tagRecords
+            self.rowsInTable = self.activeRecords.count
             self.occurrencesOfTags = self.findOccurencesOfItemsInArray(results!)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in

@@ -46,6 +46,7 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         
         titleTextField.delegate = self
         detailsTextField.delegate = self
+        tagsTextField.delegate = self
         
         saveEntryButton.userInteractionEnabled = false
         saveEntryButton.tintColor = UIColor.lightGrayColor()
