@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import CloudKit
 
 class CloudKitHelper {
@@ -24,27 +25,27 @@ class CloudKitHelper {
     var returnedDistanceSystem = ""
     
     init() {
-        container = CKContainer.defaultContainer()
+        container = CKContainer.default()
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
     }
     
-    func saveDeviceIdRecord(deviceId : String) {
+    func saveDeviceIdRecord(_ deviceId : String) {
         let deviceIdRecordName = CKRecordID(recordName: deviceId)
         let deviceIdRecord = CKRecord(recordType: "User", recordID: deviceIdRecordName)
         
-        publicDB.fetchRecordWithID(deviceIdRecordName, completionHandler: { record, error in
+        publicDB.fetch(withRecordID: deviceIdRecordName, completionHandler: { record, error in
             if error != nil {
                 print("Record was not found, so one was created.")
                 deviceIdRecord.setValue(deviceId, forKey: "DeviceId")
-                self.publicDB.saveRecord(deviceIdRecord, completionHandler: {(_,error) -> Void in
+                self.publicDB.save(deviceIdRecord, completionHandler: {(_,error) -> Void in
                     if (error != nil) {
                         print(error)
                     }
                 })
             } else {
                 record!.setObject(deviceId, forKey: "DeviceId")
-                self.publicDB.saveRecord(record!, completionHandler: {(_,error) -> Void in
+                self.publicDB.save(record!, completionHandler: {(_,error) -> Void in
                     if (error != nil) {
                         print(error)
                     }
@@ -54,26 +55,26 @@ class CloudKitHelper {
         })
     }
     
-    func saveEntryToCloud(imageToSave: UIImage, receiptToSave: UIImage, label: String, description: String, startDate: NSDate, endDate: NSDate, weeksBeforeReminder: Int, tags: String) {
+    func saveEntryToCloud(_ imageToSave: UIImage, receiptToSave: UIImage, label: String, description: String, startDate: Date, endDate: Date, weeksBeforeReminder: Int, tags: String) {
         let newRecord:CKRecord = CKRecord(recordType: "Record")
         let newImagesRecord: CKRecord = CKRecord(recordType: "ImagesForRecord")
-        let filename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
-        let receiptFilename = NSProcessInfo.processInfo().globallyUniqueString + ".png"
-        let url = NSURL.fileURLWithPath(NSTemporaryDirectory()).URLByAppendingPathComponent(filename)
-        let receiptURL = NSURL.fileURLWithPath(NSTemporaryDirectory()).URLByAppendingPathComponent(receiptFilename)
+        let filename = ProcessInfo.processInfo().globallyUniqueString + ".png"
+        let receiptFilename = ProcessInfo.processInfo().globallyUniqueString + ".png"
+        let url = try! URL(fileURLWithPath: NSTemporaryDirectory().appending(filename))
+        let receiptURL = try! URL(fileURLWithPath: NSTemporaryDirectory().appending(receiptFilename))
         
         do {
             let data = UIImagePNGRepresentation(imageToSave)!
-            try data.writeToURL(url, options: NSDataWritingOptions.AtomicWrite)
+            try data.write(to: url, options: NSData.WritingOptions.atomicWrite)
             let asset = CKAsset(fileURL: url)
             newImagesRecord["Item"] = asset
             
             let receiptData = UIImagePNGRepresentation(receiptToSave)!
-            try receiptData.writeToURL(receiptURL, options: NSDataWritingOptions.AtomicWrite)
+            try receiptData.write(to: receiptURL, options: NSData.WritingOptions.atomicWrite)
             let receiptAsset = CKAsset(fileURL: receiptURL)
             newImagesRecord["Receipt"] = receiptAsset
             
-            let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.DeleteSelf)
+            let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.deleteSelf)
             newImagesRecord["AssociatedRecord"] = recordReference
         
             newRecord["Title"] = label
@@ -87,47 +88,47 @@ class CloudKitHelper {
             print("Error writing data", error)
         }
         
-        privateDB.saveRecord(newRecord, completionHandler: { (_, error) -> Void in
+        privateDB.save(newRecord, completionHandler: { (_, error) -> Void in
             if error != nil {
                 NSLog(error!.localizedDescription)
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     print("Finished Saving Info")
                 }
             }
         })
         
-        privateDB.saveRecord(newImagesRecord, completionHandler: { (_, error) -> Void in
+        privateDB.save(newImagesRecord, completionHandler: { (_, error) -> Void in
             if error != nil {
                 NSLog(error!.localizedDescription)
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     print("Finished Saving Images")
                 }
             }
         })
         
         // save each tag to Tag table
-        let tagArray = tags.componentsSeparatedByString(",")
+        let tagArray = tags.components(separatedBy: ",")
         
         // trim whitespace from each entry in tagArray (only leading and trailing whitespace)
         for tag in tagArray {
-            let trimmedTag = tag.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let trimmedTag = tag.trimmingCharacters(in: CharacterSet.whitespaces)
             
             let newTagRecord: CKRecord = CKRecord(recordType: "Tag")
             
             //CKReference *artistReference = [[CKReference alloc] initWithRecordID:artistRecordID action:CKReferenceActionNone];
             
-            let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.DeleteSelf)
+            let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.deleteSelf)
             
             newTagRecord["Name"] = trimmedTag
             newTagRecord["Record"] = recordReference
             
-            privateDB.saveRecord(newTagRecord, completionHandler: { (_, error) -> Void in
+            privateDB.save(newTagRecord, completionHandler: { (_, error) -> Void in
                 if error != nil {
                     NSLog(error!.localizedDescription)
                 } else {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         print("Finished Saving Tags")
                     }
                 }
