@@ -442,18 +442,17 @@
                                         <rect key="frame" x="0.0" y="744" width="375" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o4q-Op-A5y" id="R4k-6g-a7r">
-                                            <frame key="frameInset" width="375" height="83.5"/>
+                                            <frame key="frameInset" width="375" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Remind me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tgg-C3-TFh">
-                                                    <frame key="frameInset" minX="8" minY="11" width="86" height="33"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tgg-C3-TFh">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DXC-6G-5sh">
-                                                    <frame key="frameInset" minX="98" minY="17" width="269" height="21"/>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DXC-6G-5sh">
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="inT-Hi-PQB"/>
                                                         <constraint firstAttribute="width" constant="269" id="y2S-9u-Fdm"/>
                                                     </constraints>
                                                     <segments>
@@ -464,8 +463,7 @@
                                                         <segment title="5"/>
                                                     </segments>
                                                 </segmentedControl>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="weeks before expiry of warranty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSR-gG-Cnm">
-                                                    <frame key="frameInset" minX="66" minY="55" width="244" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="weeks before expiry of warranty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSR-gG-Cnm">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="RyF-8O-89m"/>
                                                     </constraints>
@@ -475,7 +473,10 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="iSR-gG-Cnm" firstAttribute="top" secondItem="DXC-6G-5sh" secondAttribute="bottom" constant="18" id="7SJ-Cw-Pyq"/>
+                                                <constraint firstItem="Tgg-C3-TFh" firstAttribute="centerY" secondItem="DXC-6G-5sh" secondAttribute="centerY" id="J5N-Bw-DVk"/>
                                                 <constraint firstItem="iSR-gG-Cnm" firstAttribute="bottom" secondItem="R4k-6g-a7r" secondAttribute="bottomMargin" id="LoX-Wr-FCo"/>
+                                                <constraint firstItem="iSR-gG-Cnm" firstAttribute="top" secondItem="Tgg-C3-TFh" secondAttribute="bottom" constant="11" id="Mk8-y3-bDM"/>
                                                 <constraint firstItem="iSR-gG-Cnm" firstAttribute="centerX" secondItem="R4k-6g-a7r" secondAttribute="centerX" id="Nqz-FF-gat"/>
                                                 <constraint firstItem="iSR-gG-Cnm" firstAttribute="top" secondItem="DXC-6G-5sh" secondAttribute="bottom" constant="18" id="Zxu-1k-DSr"/>
                                                 <constraint firstItem="Tgg-C3-TFh" firstAttribute="top" secondItem="R4k-6g-a7r" secondAttribute="topMargin" constant="3" id="hI8-EB-6Ub"/>
