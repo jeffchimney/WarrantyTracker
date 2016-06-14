@@ -45,8 +45,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(error)
     }
     
+    // called when the app is in the foreground and a push notification is received.
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        print(userInfo)
+        // display the userInfo
+        if let notification = userInfo["aps"] as? NSDictionary,
+            let alert = notification["alert"] as? String {
+            var alertCtrl = UIAlertController(title: "Time Entry", message: alert as String, preferredStyle: UIAlertControllerStyle.alert)
+            alertCtrl.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            // Find the presented VC...
+            var presentedVC = self.window?.rootViewController
+            while (presentedVC!.presentedViewController != nil)  {
+                presentedVC = presentedVC!.presentedViewController
+            }
+            presentedVC!.present(alertCtrl, animated: true, completion: nil)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
