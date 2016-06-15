@@ -114,6 +114,9 @@ class CloudKitHelper {
         // trim whitespace from each entry in tagArray (only leading and trailing whitespace)
         for tag in tagArray {
             let trimmedTag = tag.trimmingCharacters(in: CharacterSet.whitespaces)
+            let capitalizedTag = trimmedTag.capitalized
+            
+            print(capitalizedTag)
             
             let newTagRecord: CKRecord = CKRecord(recordType: "Tag")
             
@@ -121,7 +124,7 @@ class CloudKitHelper {
             
             let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.deleteSelf)
             
-            newTagRecord["Name"] = trimmedTag
+            newTagRecord["Name"] = capitalizedTag
             newTagRecord["Record"] = recordReference
             
             privateDB.save(newTagRecord, completionHandler: { (_, error) -> Void in
