@@ -27,11 +27,13 @@ class DetailsTableViewController: UITableViewController {
     var container = CKContainer.default()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
+    var isBeingEdited = false
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isEditing = false
         
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
@@ -68,6 +70,8 @@ class DetailsTableViewController: UITableViewController {
         startDateLabel.text = startDateString
         let endDateString = dateFormatter.string(from: endDate)
         endDateLabel.text = endDateString
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonPressed))
     }
 
     override func didReceiveMemoryWarning() {
@@ -155,6 +159,15 @@ class DetailsTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func editButtonPressed(sender: UIBarButtonItem) {
+        isBeingEdited = !isBeingEdited
+        if isBeingEdited {
+            navigationItem.rightBarButtonItem?.title = "Done"
+        } else {
+            navigationItem.rightBarButtonItem?.title = "Edit"
+        }
+    }
 
     // MARK: - CloudKit Getters
     
