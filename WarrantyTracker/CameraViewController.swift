@@ -67,6 +67,9 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
         
         cameraView.addGestureRecognizer(tapRecognizer)
         receptView.addGestureRecognizer(tapReceiptRecognizer)
+        
+        self.navigationController?.navigationBar.isTranslucent = false;
+        self.tabBarController?.tabBar.isTranslucent = false;
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -288,6 +291,20 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     
     @IBAction func saveWarrantyButtonPressed(_ sender: AnyObject) {
         self.cloudKitHelper.saveEntryToCloud(imageToSave, receiptToSave: receiptToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date, weeksBeforeReminder: numberOfWeeksSegmentControl.selectedSegmentIndex+1, tags: tagsTextField.text!)
+        
+        let weeksBeforeReminder = (numberOfWeeksSegmentControl.selectedSegmentIndex+1)*7
+        let dateToBeReminded =  Calendar.current().date(byAdding: .day, value: -weeksBeforeReminder, to: warrantyEndsPicker.date, options: [])
+        
+        print("Date to be reminded: \(dateToBeReminded)")
+        print("Date Warranty ends \(warrantyEndsPicker.date)")
+        
+        let notification = UILocalNotification()
+        notification.fireDate = dateToBeReminded
+        notification.alertTitle = titleTextField.text!
+        notification.alertBody = "This Warranty is about to Expire"
+        notification.alertAction = "OK"
+        notification.soundName = UILocalNotificationDefaultSoundName
+        UIApplication.shared().scheduleLocalNotification(notification)
     }
 }
 
