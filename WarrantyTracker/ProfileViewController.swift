@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var WarrantiesTableView: UITableView!
     @IBOutlet weak var settingsButton: UITabBarItem!
     
+    let defaults = UserDefaults()
     var container = CKContainer.default()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
@@ -24,8 +25,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var warrantyImage: UIImage!
     // sorted by start date
     var warrantyRecords: [CKRecord] = []
-    // sorted by end date
-    var warrantyRecordsByExpiring: [CKRecord] = []
+    var encodedRecords: [Data] = []
     var recordsMatchingSearch: [CKRecord] = []
     var activeRecordsList: [CKRecord] = []
     
@@ -60,15 +60,23 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        // Get records form User Defaults
+        let data = UserDefaults.standard().object(forKey: "EncodedRecords") as? [Data] ?? [Data]()
+        var decryptedRecords: [CKRecord] = []
+        for encodedRecord in data {
+            let decryptedRecord = NSKeyedUnarchiver.unarchiveObject(with: encodedRecord) as! CKRecord
+            decryptedRecords.append(decryptedRecord)
+        }
+
+        if decryptedRecords.count != 0 {
+            warrantyRecords = decryptedRecords
+            rowsInTable = warrantyRecords.count
+            WarrantiesTableView.reloadData()
+        }
+        
         // load cloudkit assets or later use
         getAssetsFromCloudKitByRecent()
-        
-        if activeRecordsList.count != 0 {
-            rowsInTable = activeRecordsList.count
-        } else {
-            // load cloudkit assets or later use
-            getAssetsFromCloudKitByRecent()
-        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -116,10 +124,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func toggleRecentExpiringControllerChanged(_ sender: AnyObject) {
         // if recent is selected
         if recentOrExpiringControl.selectedSegmentIndex == 0 {
-            
+            getAssetsFromCloudKitByRecent()
         } else {
         // if expiring is selected
-            
+            getAssetsFromCloudKitByExpiring()
         }
     }
     
@@ -240,6 +248,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         detailsTableViewController.itemWasInRecordsList = activeRecordsList
     }
     
+    // MARK: - UserDefaults 'Set'  Method
+    func saveRecordsLocally(records: [CKRecord]) {
+        // save results found by cloudkit to be the new set stored locally in User Defaults
+        encodedRecords = []
+        for record in records {
+            let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+            
+            self.encodedRecords.append(encodedRecord)
+        }
+        
+        UserDefaults.standard().set(self.encodedRecords, forKey: "EncodedRecords")
+    }
     
     // MARK: - CloudKit 'Get'  Methods
     
@@ -254,6 +274,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.rowsInTable = (results?.count)!
             self.recordsMatchingSearch = results!
             self.warrantyRecords = results!
+            
+            self.saveRecordsLocally(records: results!)
             
             DispatchQueue.main.async(execute: { () -> Void in
                 self.WarrantiesTableView.reloadData()
@@ -271,7 +293,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             // tell the table how many rows it should have
             self.rowsInTable = (results?.count)!
             self.recordsMatchingSearch = results!
-            self.warrantyRecordsByExpiring = results!
+            self.warrantyRecords = results!
             
             DispatchQueue.main.async(execute: { () -> Void in
                 self.WarrantiesTableView.reloadData()

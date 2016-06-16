@@ -23,6 +23,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     var searchBar:UISearchBar!
     
     var tagRecords: [CKRecord] = []
+    var encodedTagRecords: [Data] = []
     var activeRecords: [CKRecord] = []
     var occurrencesOfTags: [String: Int] = [:]
     
@@ -49,6 +50,20 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // Get records form User Defaults
+//        let data = UserDefaults.standard().object(forKey: "EncodedTagRecords") as? [Data] ?? [Data]()
+//        var decryptedRecords: [CKRecord] = []
+//        for encodedRecord in data {
+//            let decryptedRecord = NSKeyedUnarchiver.unarchiveObject(with: encodedRecord) as! CKRecord
+//            decryptedRecords.append(decryptedRecord)
+//        }
+//        
+//        if decryptedRecords.count != 0 {
+//            tagRecords = decryptedRecords
+//            rowsInTable = tagRecords.count
+//            tagsTableView.reloadData()
+//        }
+        
         // load cloudkit assets or later use
         getTagsFromCloudKit()
     }
@@ -160,6 +175,19 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
+//    // MARK: - UserDefaults 'Set'  Method
+//    func saveRecordsLocally(records: [CKRecord]) {
+//        // save results found by cloudkit to be the new set stored locally in User Defaults
+//        encodedTagRecords = []
+//        for record in records {
+//            let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+//            
+//            self.encodedTagRecords.append(encodedRecord)
+//        }
+//        
+//        UserDefaults.standard().set(self.encodedTagRecords, forKey: "EncodedTagRecords")
+//    }
+    
     // MARK: - CloudKit 'Get'  Methods
     
     func getTagsFromCloudKit() {
@@ -174,6 +202,8 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             self.activeRecords = self.tagRecords
             self.rowsInTable = self.activeRecords.count
             self.occurrencesOfTags = self.findOccurencesOfItemsInArray(results!)
+            
+            //self.saveRecordsLocally(records: results!)
             
             DispatchQueue.main.async(execute: { () -> Void in
                 self.tagsTableView.reloadData()
