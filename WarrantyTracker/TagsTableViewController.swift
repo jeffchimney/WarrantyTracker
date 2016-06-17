@@ -51,20 +51,27 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         // Get records form User Defaults
-//        let data = UserDefaults.standard().object(forKey: "EncodedTagRecords") as? [Data] ?? [Data]()
-//        var decryptedRecords: [CKRecord] = []
-//        for encodedRecord in data {
-//            let decryptedRecord = NSKeyedUnarchiver.unarchiveObject(with: encodedRecord) as! CKRecord
-//            decryptedRecords.append(decryptedRecord)
-//        }
-//        
-//        if decryptedRecords.count != 0 {
-//            tagRecords = decryptedRecords
-//            rowsInTable = tagRecords.count
-//            tagsTableView.reloadData()
-//        }
+        let data = UserDefaults.standard().object(forKey: "EncodedTagRecords") as? [Data] ?? [Data]()
+        var decryptedRecords: [CKRecord] = []
+        for encodedRecord in data {
+            let decryptedRecord = NSKeyedUnarchiver.unarchiveObject(with: encodedRecord) as! CKRecord
+            decryptedRecords.append(decryptedRecord)
+        }
         
-        // load cloudkit assets or later use
+        if decryptedRecords.count != 0 {
+            tagRecords = decryptedRecords
+            
+            tagRecords = removeDuplicatesFromArray(tagRecords)
+            activeRecords = tagRecords
+            rowsInTable = activeRecords.count
+            occurrencesOfTags = findOccurencesOfItemsInArray(tagRecords)
+            
+            
+            //rowsInTable = tagRecords.count
+            tagsTableView.reloadData()
+        }
+        
+        // load cloudkit assets
         getTagsFromCloudKit()
     }
     
@@ -175,18 +182,18 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         
     }
     
-//    // MARK: - UserDefaults 'Set'  Method
-//    func saveRecordsLocally(records: [CKRecord]) {
-//        // save results found by cloudkit to be the new set stored locally in User Defaults
-//        encodedTagRecords = []
-//        for record in records {
-//            let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
-//            
-//            self.encodedTagRecords.append(encodedRecord)
-//        }
-//        
-//        UserDefaults.standard().set(self.encodedTagRecords, forKey: "EncodedTagRecords")
-//    }
+    // MARK: - UserDefaults 'Set'  Method
+    func saveRecordsLocally(records: [CKRecord]) {
+        // save results found by cloudkit to be the new set stored locally in User Defaults
+        encodedTagRecords = []
+        for record in records {
+            let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+            
+            self.encodedTagRecords.append(encodedRecord)
+        }
+        
+        UserDefaults.standard().set(encodedTagRecords, forKey: "EncodedTagRecords")
+    }
     
     // MARK: - CloudKit 'Get'  Methods
     
@@ -203,7 +210,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             self.rowsInTable = self.activeRecords.count
             self.occurrencesOfTags = self.findOccurencesOfItemsInArray(results!)
             
-            //self.saveRecordsLocally(records: results!)
+            self.saveRecordsLocally(records: results!)
             
             DispatchQueue.main.async(execute: { () -> Void in
                 self.tagsTableView.reloadData()

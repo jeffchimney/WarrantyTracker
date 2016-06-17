@@ -14,6 +14,7 @@ class CloudKitHelper {
     var container : CKContainer
     var publicDB : CKDatabase
     let privateDB : CKDatabase
+    let defaults = UserDefaults()
     
     var returnedHeight = ""
     var returnedWeight = ""
@@ -23,7 +24,7 @@ class CloudKitHelper {
     var returnedHeightSystem = ""
     var returnedWeightSystem = ""
     var returnedDistanceSystem = ""
-    
+        
     init() {
         container = CKContainer.default()
         publicDB = container.publicCloudDatabase
@@ -88,6 +89,8 @@ class CloudKitHelper {
             print("Error writing data", error)
         }
         
+        saveRecordLocally(record: newRecord)
+        
         privateDB.save(newRecord, completionHandler: { (_, error) -> Void in
             if error != nil {
                 NSLog(error!.localizedDescription)
@@ -110,6 +113,7 @@ class CloudKitHelper {
         
         // save each tag to Tag table
         let tagArray = tags.components(separatedBy: ",")
+        var tagRecordArray: [CKRecord] = []
         
         // trim whitespace from each entry in tagArray (only leading and trailing whitespace)
         for tag in tagArray {
@@ -117,12 +121,12 @@ class CloudKitHelper {
             
             let newTagRecord: CKRecord = CKRecord(recordType: "Tag")
             
-            //CKReference *artistReference = [[CKReference alloc] initWithRecordID:artistRecordID action:CKReferenceActionNone];
-            
             let recordReference: CKReference = CKReference(recordID: newRecord.recordID, action: CKReferenceAction.deleteSelf)
             
             newTagRecord["Name"] = trimmedTag
             newTagRecord["Record"] = recordReference
+            
+            tagRecordArray.append(newTagRecord)
             
             privateDB.save(newTagRecord, completionHandler: { (_, error) -> Void in
                 if error != nil {
@@ -133,6 +137,72 @@ class CloudKitHelper {
                     }
                 }
             })
+        }
+    
+        saveTagRecordsLocally(records: tagRecordArray)
+    }
+    
+    // MARK: - UserDefaults 'Set'  Method
+    func saveRecordLocally(record: CKRecord) {
+        // Get records form User Defaults
+        let data = UserDefaults.standard().object(forKey: "EncodedRecords") as? [Data] ?? [Data]()
+        var decryptedRecords: [CKRecord] = []
+        for encodedRecord in data {
+            let decryptedRecord = NSKeyedUnarchiver.unarchiveObject(with: encodedRecord) as! CKRecord
+            decryptedRecords.append(decryptedRecord)
+        }
+        
+        var encodedRecords: [Data] = []
+        if decryptedRecords.count != 0 {
+            decryptedRecords.append(record)
+            
+            for record in decryptedRecords {
+                let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+                
+                encodedRecords.append(encodedRecord)
+            }
+            
+            UserDefaults.standard().set(encodedRecords, forKey: "EncodedRecords")
+        } else {
+            // this is the first record entered.  Save it.
+            let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+            let encodedRecords = [encodedRecord]
+            UserDefaults.standard().set(encodedRecords, forKey: "EncodedRecords")
+        }
+    }
+    
+    // MARK: - UserDefaults 'Set'  Method
+    func saveTagRecordsLocally(records: [CKRecord]) {
+        // Get records form User Defaults
+        let data = UserDefaults.standard().object(forKey: "EncodedTagRecords") as? [Data] ?? [Data]()
+        var decryptedRecords: [CKRecord] = []
+        for encodedRecord in data {
+            let decryptedRecord = NSKeyedUnarchiver.unarchiveObject(with: encodedRecord) as! CKRecord
+            decryptedRecords.append(decryptedRecord)
+        }
+        
+        var encodedRecords: [Data] = []
+        if decryptedRecords.count != 0 {
+            
+            for record in records {
+                decryptedRecords.append(record)
+            }
+            
+            for record in decryptedRecords {
+                let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+                
+                encodedRecords.append(encodedRecord)
+            }
+            
+            UserDefaults.standard().set(encodedRecords, forKey: "EncodedTagRecords")
+        } else {
+            // this is the first record entered.  Save it.
+            var encodedRecords: [Data] = []
+            for record in records {
+                let encodedRecord = NSKeyedArchiver.archivedData(withRootObject: record)
+                encodedRecords.append(encodedRecord)
+            }
+            UserDefaults.standard().set(encodedRecords, forKey: "EncodedTagRecords")
         }
     }
 }

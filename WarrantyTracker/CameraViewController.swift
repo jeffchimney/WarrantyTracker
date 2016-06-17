@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class CameraViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
@@ -36,6 +37,7 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     var receiptPhotoWasChanged = false
     
     let cloudKitHelper = CloudKitHelper()
+    let defaults = UserDefaults()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -290,6 +292,7 @@ class CameraViewController: UITableViewController, UIImagePickerControllerDelega
     }
     
     @IBAction func saveWarrantyButtonPressed(_ sender: AnyObject) {
+        // save record both to CloudKit and Locally
         self.cloudKitHelper.saveEntryToCloud(imageToSave, receiptToSave: receiptToSave, label: titleTextField.text!, description: detailsTextField.text!, startDate: warrantyBeginsPicker.date, endDate: warrantyEndsPicker.date, weeksBeforeReminder: numberOfWeeksSegmentControl.selectedSegmentIndex+1, tags: tagsTextField.text!)
         
         let weeksBeforeReminder = (numberOfWeeksSegmentControl.selectedSegmentIndex+1)*7
