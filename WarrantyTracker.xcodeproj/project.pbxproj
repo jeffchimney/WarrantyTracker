@@ -19,6 +19,7 @@
 		BE97F8671D09EBD600E5FB6A /* SelectedTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97F8661D09EBD600E5FB6A /* SelectedTagViewController.swift */; };
 		BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */; };
 		BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */; };
+		BEE290BD1D9AE1C8000D0B68 /* CalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE290BC1D9AE1C8000D0B68 /* CalendarEvent.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
 		BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */; };
 		BEF5F7CF1CEF8AAC00F3B769 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */; };
@@ -59,6 +60,7 @@
 		BE97F8661D09EBD600E5FB6A /* SelectedTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedTagViewController.swift; sourceTree = "<group>"; };
 		BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsTableViewController.swift; sourceTree = "<group>"; };
 		BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagTableViewCell.swift; sourceTree = "<group>"; };
+		BEE290BC1D9AE1C8000D0B68 /* CalendarEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarEvent.swift; sourceTree = "<group>"; };
 		BEF5F7C41CEF8AAB00F3B769 /* WarrantyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarrantyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				BEF7EB0C1CF60E0E000CCE75 /* WarrantyTracker.entitlements */,
 				BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */,
+				BEE290BC1D9AE1C8000D0B68 /* CalendarEvent.swift */,
 				BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */,
 				BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */,
 				BED99CBF1D077B2400B3FC5B /* TagsTableViewController.swift */,
@@ -319,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEE290BD1D9AE1C8000D0B68 /* CalendarEvent.swift in Sources */,
 				BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */,
 				BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */,
 				BEF7EB101CF60EC3000CCE75 /* CloudKitHelper.swift in Sources */,
