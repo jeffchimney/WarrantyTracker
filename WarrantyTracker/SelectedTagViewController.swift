@@ -21,7 +21,7 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     
     var recordToPass: CKRecord!
     
-    var container = CKContainer.defaultContainer()
+    var container = CKContainer.default()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
     
@@ -32,7 +32,7 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width-60, 20))
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width-60, height: 20))
         
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
@@ -47,10 +47,10 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
         let rightNavBarButton = UIBarButtonItem(customView:searchBar)
         self.navigationItem.rightBarButtonItem = rightNavBarButton
         
-        getRecordsWithTag(selectedTag)
+        getRecordsWithTag(tag: selectedTag)
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
 
@@ -61,27 +61,27 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
         SelectedTagTableView.reloadData()
     }
     
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.showsCancelButton = true
         return true
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
         
         recordsMatchingSearch = []
         
         for record in 0...recordsWithTag.count-1 {
-            let searchTerm = searchBar.text?.lowercaseString
+            let searchTerm = searchBar.text?.lowercased()
             let currentRecord = recordsWithTag[record]
             let recordTags = currentRecord["Tags"] as? String
-            let recordTagsLowerCase = recordTags?.lowercaseString
+            let recordTagsLowerCase = recordTags?.lowercased()
             
             // make sure there is a tag before trying to compare it
             if recordTags == nil {
                 print("Found Nil")
-            } else if recordTagsLowerCase!.containsString(searchTerm!) {
+            } else if recordTagsLowerCase!.contains(searchTerm!) {
                 recordsMatchingSearch.append(currentRecord)
             }
         }
@@ -98,16 +98,16 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     // MARK: - Table View Delegate Methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rowsInTable
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! WarrantyTableViewCell
         let index = indexPath.row
         let currentRecord = recordsWithTag[index]
         
@@ -118,23 +118,23 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
             let endDate = currentRecord["EndDate"] as! NSDate
             
             // format date properly as string
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            let endDateString = dateFormatter.stringFromDate(endDate)
+            let endDateString = dateFormatter.string(from: endDate as Date)
             cell.endDateLabel.text = endDateString
             
             let startDate = currentRecord["StartDate"] as! NSDate
             
             //format properly as string
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            let startDateString = dateFormatter.stringFromDate(startDate)
+            let startDateString = dateFormatter.string(from: startDate as Date)
             cell.startDateLabel.text = startDateString
         }
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if searchBar.text == "" {
             recordsMatchingSearch = recordsWithTag
@@ -142,20 +142,20 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
             
             recordToPass = recordTapped
             
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         } else {
             let recordTapped = recordsMatchingSearch[indexPath.row]
             
             recordToPass = recordTapped
             
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         }
         //self.navigationController?.pushViewController(detailsTableViewController, animated: true)
-        performSegueWithIdentifier("showRecordDetail", sender: nil)
+        performSegue(withIdentifier: "showRecordDetail", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsTableViewController = segue.destinationViewController as! DetailsTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsTableViewController = segue.destination as! DetailsTableViewController
         
         detailsTableViewController.recordToReceive = recordToPass
         detailsTableViewController.itemWasInRecordsList = recordsMatchingSearch
@@ -178,22 +178,22 @@ class SelectedTagViewController: UIViewController, UITableViewDelegate, UITableV
         let query = CKQuery(recordType: "Record", predicate: predicate)
         //query.sortDescriptors = [NSSortDescriptor(key: "Name", ascending: true)]
         
-        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+        privateDB.perform(query, inZoneWith: nil, completionHandler: {(results, error) in
             
             // tell the table how many rows it should have
             self.records = results!
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async {
                 for record in self.records {
                     print(record["Tags"]!)
                     let currentRecordTags = record["Tags"]! as? String
-                    if (currentRecordTags!.containsString(tag)) {
+                    if (currentRecordTags!.contains(tag)) {
                         self.recordsWithTag.append(record)
                     }
                 }
                 self.rowsInTable = self.recordsWithTag.count
                 self.SelectedTagTableView.reloadData()
-            })
+            }
         })
     }
 }

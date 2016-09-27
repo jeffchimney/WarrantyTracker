@@ -24,7 +24,7 @@ class DetailsTableViewController: UITableViewController {
     
     var itemWasInRecordsList: [CKRecord]!
     
-    var container = CKContainer.defaultContainer()
+    var container = CKContainer.default()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
     
@@ -38,12 +38,12 @@ class DetailsTableViewController: UITableViewController {
         
         getAssetsFromCloudKitByRecent()
         
-        activityIndicator.hidden = false
+        activityIndicator.isHidden = false
         
         // add activity indicator
         //activityIndicator = UIActivityIndicatorView(frame: view.bounds)
-        activityIndicator.activityIndicatorViewStyle = .Gray
-        activityIndicator.backgroundColor = UIColor.whiteColor()
+        activityIndicator.activityIndicatorViewStyle = .gray
+        activityIndicator.backgroundColor = UIColor.white
         activityIndicator.startAnimating()
         //self.view.addSubview(activityIndicator)
         
@@ -62,11 +62,11 @@ class DetailsTableViewController: UITableViewController {
         detailsLabel.text = detailsLabelString
         
         // format date properly as string
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
-        let startDateString = dateFormatter.stringFromDate(startDate)
+        let startDateString = dateFormatter.string(from: startDate as Date)
         startDateLabel.text = startDateString
-        let endDateString = dateFormatter.stringFromDate(endDate)
+        let endDateString = dateFormatter.string(from: endDate as Date)
         endDateLabel.text = endDateString
     }
 
@@ -159,33 +159,33 @@ class DetailsTableViewController: UITableViewController {
     // MARK: - CloudKit Getters
     
     func getAssetsFromCloudKitByRecent() {
-        let reference = CKReference(record: recordToReceive, action: CKReferenceAction.DeleteSelf)
+        let reference = CKReference(record: recordToReceive, action: CKReferenceAction.deleteSelf)
         
         let predicate = NSPredicate(format: "AssociatedRecord = %@", reference)
         let query = CKQuery(recordType: "ImagesForRecord", predicate: predicate)
         
-        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+        privateDB.perform(query, inZoneWith: nil, completionHandler: {(results, error) in
             
             // tell the table how many rows it should have
             
             self.imagesRecords = results!
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async {
                 if self.imagesRecords.count != 0 {
                     if let asset = self.imagesRecords[0]["Item"] as? CKAsset,
-                        data = NSData(contentsOfURL: asset.fileURL),
-                        image = UIImage(data: data) {
+                        let data = NSData(contentsOf: asset.fileURL),
+                        let image = UIImage(data: data as Data) {
                         self.itemImageView.image = image
                     }
                     
                     if let receiptAsset = self.imagesRecords.first!["Receipt"] as? CKAsset,
-                        receiptData = NSData(contentsOfURL: receiptAsset.fileURL),
-                        receiptImage = UIImage(data: receiptData) {
+                        let receiptData = NSData(contentsOf: receiptAsset.fileURL),
+                        let receiptImage = UIImage(data: receiptData as Data) {
                         self.receiptImageView.image = receiptImage
                     }
                     self.removeActivityIndicator()
                 }
-            })
+            }
         })
     }
 }

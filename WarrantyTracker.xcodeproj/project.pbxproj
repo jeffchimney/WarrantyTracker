@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE00AA4B1D9A16D1001E8CDA /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */; };
+		BE00AA4C1D9A16D1001E8CDA /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */; };
+		BE00AA4D1D9A16DB001E8CDA /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */; };
 		BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C13281CF788C3004B4A9B /* DetailsTableViewController.swift */; };
 		BE8299F51CF53D66009150F0 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8299F41CF53D66009150F0 /* TesseractOCR.framework */; };
 		BE8299F71CF53DA6009150F0 /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = BE8299F61CF53DA6009150F0 /* tessdata */; };
@@ -18,7 +21,6 @@
 		BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED99CC11D077CFB00B3FC5B /* TagTableViewCell.swift */; };
 		BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C71CEF8AAB00F3B769 /* AppDelegate.swift */; };
 		BEF5F7CA1CEF8AAB00F3B769 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7C91CEF8AAB00F3B769 /* ProfileViewController.swift */; };
-		BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF5F7CB1CEF8AAB00F3B769 /* CameraViewController.swift */; };
 		BEF5F7CF1CEF8AAC00F3B769 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7CD1CEF8AAC00F3B769 /* Main.storyboard */; };
 		BEF5F7D11CEF8AAC00F3B769 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7D01CEF8AAC00F3B769 /* Assets.xcassets */; };
 		BEF5F7D41CEF8AAC00F3B769 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEF5F7D21CEF8AAC00F3B769 /* LaunchScreen.storyboard */; };
@@ -236,12 +238,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Jeff Chimney";
 				TargetAttributes = {
 					BEF5F7C31CEF8AAB00F3B769 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = JSZY8AYXNH;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -253,10 +256,12 @@
 					};
 					BEF5F7D91CEF8AAC00F3B769 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = BEF5F7C31CEF8AAB00F3B769;
 					};
 					BEF5F7E41CEF8AAC00F3B769 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = BEF5F7C31CEF8AAB00F3B769;
 					};
 				};
@@ -315,7 +320,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BED99CC21D077CFB00B3FC5B /* TagTableViewCell.swift in Sources */,
-				BEF5F7CC1CEF8AAB00F3B769 /* CameraViewController.swift in Sources */,
 				BEF5F7C81CEF8AAB00F3B769 /* AppDelegate.swift in Sources */,
 				BEF7EB101CF60EC3000CCE75 /* CloudKitHelper.swift in Sources */,
 				BE97F8671D09EBD600E5FB6A /* SelectedTagViewController.swift in Sources */,
@@ -323,6 +327,7 @@
 				BED99CC01D077B2400B3FC5B /* TagsTableViewController.swift in Sources */,
 				BE7C13291CF788C3004B4A9B /* DetailsTableViewController.swift in Sources */,
 				BEF7EB121CF62FC7000CCE75 /* WarrantyTableViewCell.swift in Sources */,
+				BE00AA4D1D9A16DB001E8CDA /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF5F7DF1CEF8AAC00F3B769 /* WarrantyTrackerTests.swift in Sources */,
+				BE00AA4B1D9A16D1001E8CDA /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF5F7EA1CEF8AAC00F3B769 /* WarrantyTrackerUITests.swift in Sources */,
+				BE00AA4C1D9A16D1001E8CDA /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,8 +398,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -437,8 +446,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -457,6 +468,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -469,6 +481,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WarrantyTracker/WarrantyTracker.entitlements;
+				DEVELOPMENT_TEAM = JSZY8AYXNH;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -480,6 +493,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WarrantyTracker-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -490,6 +504,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WarrantyTracker/WarrantyTracker.entitlements;
+				DEVELOPMENT_TEAM = JSZY8AYXNH;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -501,6 +516,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "WarrantyTracker-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -512,6 +528,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WarrantyTracker.app/WarrantyTracker";
 			};
 			name = Debug;
@@ -524,6 +541,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WarrantyTracker.app/WarrantyTracker";
 			};
 			name = Release;
@@ -535,6 +553,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTrackerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = WarrantyTracker;
 			};
 			name = Debug;
@@ -546,6 +565,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JeffsApps.WarrantyTrackerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = WarrantyTracker;
 			};
 			name = Release;

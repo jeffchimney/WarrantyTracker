@@ -11,7 +11,7 @@ import CloudKit
 
 class TagsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
-    var container = CKContainer.defaultContainer()
+    var container = CKContainer.default()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
     
@@ -40,7 +40,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
 
-        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width-40, 20))
+        searchBar = UISearchBar(frame: CGRect(x: 0,y: 0, width: self.view.frame.width-40, height: 20))
         searchBar.delegate = self
         searchBar.placeholder = "Search"
         
@@ -48,12 +48,12 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         self.navigationItem.rightBarButtonItem = rightNavBarButton
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // load cloudkit assets or later use
         getTagsFromCloudKit()
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         
         // on leaving search, reset results to all tags
@@ -65,27 +65,27 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         searchBar.resignFirstResponder()
     }
     
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.showsCancelButton = true
         return true
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
         
         activeRecords = []
         
         for record in 0...tagRecords.count-1 {
-            let searchTerm = searchBar.text?.lowercaseString
+            let searchTerm = searchBar.text?.lowercased()
             let currentRecord = tagRecords[record]
             let recordTags = currentRecord["Name"] as? String
-            let recordTagsLowerCase = recordTags?.lowercaseString
+            let recordTagsLowerCase = recordTags?.lowercased()
             
             // make sure there is a tag before trying to compare it
             if recordTags == nil {
                 print("Found Nil")
-            } else if recordTagsLowerCase!.containsString(searchTerm!) {
+            } else if recordTagsLowerCase!.contains(searchTerm!) {
                 activeRecords.append(currentRecord)
             }
         }
@@ -103,20 +103,20 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
 
     // MARK: - Table view data source
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return rowsInTable
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         if searchBar.text == "" {
-            let cell = tableView.dequeueReusableCellWithIdentifier("tagCell", forIndexPath: indexPath) as! TagTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tagCell", for: indexPath as IndexPath) as! TagTableViewCell
             let index = indexPath.row
             let currentRecord = tagRecords[index]
             
@@ -126,7 +126,7 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
             // if the user has entered a search term, only show those items that have a matching tag
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("tagCell", forIndexPath: indexPath) as! TagTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "tagCell", for: indexPath as IndexPath) as! TagTableViewCell
             let index = indexPath.row
             let currentRecord = activeRecords[index]
             
@@ -137,21 +137,21 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // handle table view cell selection
         let recordTapped = activeRecords[indexPath.row]
         selectedTag = recordTapped["Name"] as! String
         
-        performSegueWithIdentifier("toRecordsWithTag", sender: nil)
+        performSegue(withIdentifier: "toRecordsWithTag", sender: nil)
     }
 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let selectedTagTableViewController = segue.destinationViewController as! SelectedTagViewController
+        let selectedTagTableViewController = segue.destination as! SelectedTagViewController
         
         selectedTagTableViewController.selectedTag = selectedTag
     }
@@ -167,17 +167,17 @@ class TagsTableViewController: UIViewController, UITableViewDelegate, UITableVie
         let query = CKQuery(recordType: "Tag", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "Name", ascending: true)]
         
-        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+        privateDB.perform(query, inZoneWith: nil, completionHandler: {(results, error) in
             
             // tell the table how many rows it should have
-            self.tagRecords = self.removeDuplicatesFromArray(results!)
+            self.tagRecords = self.removeDuplicatesFromArray(inputArray: results!)
             self.activeRecords = self.tagRecords
             self.rowsInTable = self.activeRecords.count
-            self.occurrencesOfTags = self.findOccurencesOfItemsInArray(results!)
+            self.occurrencesOfTags = self.findOccurencesOfItemsInArray(inputArray: results!)
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async {
                 self.tagsTableView.reloadData()
-            })
+            }
         })
     }
     

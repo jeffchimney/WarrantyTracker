@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var WarrantiesTableView: UITableView!
     @IBOutlet weak var settingsButton: UITabBarItem!
     
-    var container = CKContainer.defaultContainer()
+    var container = CKContainer.default()
     var publicDB : CKDatabase!
     var privateDB : CKDatabase!
     
@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar = UISearchBar(frame: CGRectMake(0, 0, self.view.frame.width-40, 20))
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width-40, height: 20))
         
         publicDB = container.publicCloudDatabase
         privateDB = container.privateCloudDatabase
@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         // load cloudkit assets or later use
         getAssetsFromCloudKitByRecent()
         
@@ -71,7 +71,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
         
@@ -82,27 +82,27 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         WarrantiesTableView.reloadData()
     }
     
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.showsCancelButton = true
         return true
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
         
         recordsMatchingSearch = []
         
         for record in 0...warrantyRecords.count-1 {
-            let searchTerm = searchBar.text?.lowercaseString
+            let searchTerm = searchBar.text?.lowercased()
             let currentRecord = warrantyRecords[record]
             let recordTags = currentRecord["Tags"] as? String
-            let recordTagsLowerCase = recordTags?.lowercaseString
+            let recordTagsLowerCase = recordTags?.lowercased()
             
             // make sure there is a tag before trying to compare it
             if recordTags == nil {
                 print("Found Nil")
-            } else if recordTagsLowerCase!.containsString(searchTerm!) {
+            } else if recordTagsLowerCase!.contains(searchTerm!) {
                 recordsMatchingSearch.append(currentRecord)
             }
         }
@@ -126,18 +126,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     // MARK: - UITableViewDataSource Delegate Methods
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    private func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rowsInTable // number of entries in cloudkit or items matching search
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //if (activeRecordsList.count == 0) {
         if searchBar.text == "" {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! WarrantyTableViewCell
             let index = indexPath.row
             let currentRecord = warrantyRecords[index]
             
@@ -147,22 +147,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let endDate = currentRecord["EndDate"] as! NSDate
         
             // format date properly as string
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            let endDateString = dateFormatter.stringFromDate(endDate)
+            let endDateString = dateFormatter.string(from: endDate as Date)
             cell.endDateLabel.text = endDateString
             
             let startDate = currentRecord["StartDate"] as! NSDate
             
             //format properly as string
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            let startDateString = dateFormatter.stringFromDate(startDate)
+            let startDateString = dateFormatter.string(from: startDate as Date)
             cell.startDateLabel.text = startDateString
         
             return cell
         // if the user has entered a search term, only show those items that have a matching tag
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! WarrantyTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! WarrantyTableViewCell
             let index = indexPath.row
             let currentRecord = recordsMatchingSearch[index]
             
@@ -172,16 +172,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             let endDate = currentRecord["EndDate"] as! NSDate
             
             // format date properly as string
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            let endDateString = dateFormatter.stringFromDate(endDate)
+            let endDateString = dateFormatter.string(from: endDate as Date)
             cell.endDateLabel.text = endDateString
             
             let startDate = currentRecord["StartDate"] as! NSDate
             
             //format properly as string
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            let startDateString = dateFormatter.stringFromDate(startDate)
+            let startDateString = dateFormatter.string(from: startDate as Date)
             cell.startDateLabel.text = startDateString
             
             return cell
@@ -212,7 +212,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 //            return cell
 //        }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if searchBar.text == "" {
             activeRecordsList = warrantyRecords
@@ -220,26 +220,25 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
             recordToPass = recordTapped
         
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         } else {
             activeRecordsList = recordsMatchingSearch
             let recordTapped = recordsMatchingSearch[indexPath.row]
             
             recordToPass = recordTapped
             
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         }
         //self.navigationController?.pushViewController(detailsTableViewController, animated: true)
-        performSegueWithIdentifier("showDetail", sender: nil)
+        performSegue(withIdentifier: "showDetail", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailsTableViewController = segue.destinationViewController as! DetailsTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let detailsTableViewController = segue.destination as! DetailsTableViewController
         
         detailsTableViewController.recordToReceive = recordToPass
         detailsTableViewController.itemWasInRecordsList = activeRecordsList
     }
-    
     
     // MARK: - CloudKit 'Get'  Methods
     
@@ -248,16 +247,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let query = CKQuery(recordType: "Record", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "StartDate", ascending: false)]
         
-        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+        privateDB.perform(query, inZoneWith: nil, completionHandler: {(results, error) in
             
             // tell the table how many rows it should have
             self.rowsInTable = (results?.count)!
             self.recordsMatchingSearch = results!
             self.warrantyRecords = results!
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async {
                 self.WarrantiesTableView.reloadData()
-            })
+            }
         })
     }
     
@@ -266,16 +265,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let query = CKQuery(recordType: "Record", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "EndDate", ascending: true)]
         
-        privateDB.performQuery(query, inZoneWithID: nil, completionHandler: {(results, error) in
+        privateDB.perform(query, inZoneWith: nil, completionHandler: {(results, error) in
             
             // tell the table how many rows it should have
             self.rowsInTable = (results?.count)!
             self.recordsMatchingSearch = results!
             self.warrantyRecordsByExpiring = results!
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async{
                 self.WarrantiesTableView.reloadData()
-            })
+            }
         })
     }
 }
